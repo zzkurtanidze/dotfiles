@@ -1,0 +1,40 @@
+[
+  {
+    "key": "ctrl+n",
+    "command": "explorer.newFile"
+  },
+  {
+    "key": "ctrl+n",
+    "command": "-workbench.action.files.newUntitledFile"
+  },
+  {
+    "key": "ctrl+shift+down",
+    "command": "editor.action.copyLinesDownAction",
+    "when": "editorTextFocus && !editorReadonly"
+  },
+  {
+    "key": "ctrl+shift+alt+down",
+    "command": "-editor.action.copyLinesDownAction",
+    "when": "editorTextFocus && !editorReadonly"
+  },
+  {
+    "key": "ctrl+shift+pagedown",
+    "command": "editor.action.copyLinesUpAction",
+    "when": "editorTextFocus && !editorReadonly"
+  },
+  {
+    "key": "ctrl+shift+alt+up",
+    "command": "-editor.action.copyLinesUpAction",
+    "when": "editorTextFocus && !editorReadonly"
+  },
+  {
+    "key": "ctrl+f",
+    "command": "editor.action.smartSelect.expand",
+    "when": "editorTextFocus"
+  },
+  {
+    "key": "shift+alt+right",
+    "command": "-editor.action.smartSelect.expand",
+    "when": "editorTextFocus"
+  }
+]

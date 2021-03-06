@@ -1,0 +1,40 @@
+{
+  "php.validate.run": "onType",
+  "javascript.updateImportsOnFileMove.enabled": "always",
+  "editor.formatOnPaste": true,
+  "[javascript]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "terminal.integrated.fontFamily": "monospace",
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "editor.formatOnSave": true,
+  "[python]": {
+    "gitlens.codeLens.symbolScopes": ["!Module"]
+  },
+  "editor.find.addExtraSpaceOnTop": false,
+  "editor.fontLigatures": true,
+  "editor.fontSize": 16,
+  "editor.cursorSmoothCaretAnimation": true,
+  "editor.cursorWidth": 3,
+  "editor.renderWhitespace": "none",
+  "editor.tabSize": 2,
+  "editor.multiCursorModifier": "ctrlCmd",
+  "material-icon-theme.folders.associations": {},
+  "workbench.editor.labelFormat": "short",
+  "workbench.editor.untitled.labelFormat": "name",
+  "[svelte]": {
+    "editor.formatOnSave": true
+  },
+  "editor.renameOnType": true,
+  "vim.statusBarColorControl": false,
+  "typescript.updateImportsOnFileMove.enabled": "always",
+  "kite.showWelcomeNotificationOnStartup": false,
+  "kite.developerMode": true,
+  "liveServer.settings.donotShowInfoMsg": true,
+  "liveServer.settings.donotVerifyTags": true,
+  "workbench.iconTheme": "material-icon-theme",
+  "editor.minimap.enabled": false,
+  "editor.fontFamily": "'Droid Sans Mono' , 'monospace', monospace, 'Droid Sans Fallback'",
+  "editor.fontWeight": "900",
+  "workbench.colorTheme": "Gruvbox Dark Soft"
+}
