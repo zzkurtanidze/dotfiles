@@ -6,6 +6,7 @@ Plug 'frazrepo/vim-rainbow'
 Plug 'itchyny/lightline.vim'
 Plug 'tpope/vim-eunuch'
 Plug 'airblade/vim-gitgutter'
+Plug 'vim-scripts/AutoComplPop'
 
 call plug#end()
 
@@ -26,3 +27,7 @@ let g:lightline = {
 " Set color scheme to gruvbox
 let g:gruvbox_termcolors = 16 " Enable dark mode
 colorscheme gruvbox
+
+" vim autocomplete
+set complete+=kspell
+set completeopt=menuone,longest
