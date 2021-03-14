@@ -73,6 +73,8 @@ ZSH_THEME="robbyrussell"
 plugins=(zsh-autosuggestions)
 
 source $ZSH/oh-my-zsh.sh
+
+
 . ~/z/z.sh
 # User configuration
 
@@ -100,3 +102,6 @@ source $ZSH/oh-my-zsh.sh
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 alias python=python3
+alias go=z
+
+export TERM=xterm-256color
