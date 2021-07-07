@@ -1,40 +1,40 @@
-" Load packages
-call plug#begin('~/.vim/autoload')
+call plug#begin("~/.vim/autoload:")
 
-Plug 'frazrepo/vim-rainbow'
-Plug 'itchyny/lightline.vim'
-Plug 'tpope/vim-eunuch'
-Plug 'airblade/vim-gitgutter'
-Plug 'vim-scripts/AutoComplPop'
-Plug 'preservim/nerdtree'
-Plug 'prettier/vim-prettier', {
-  \ 'do': 'yarn install',
-  \ 'for': ['javascript', 'typescript', 'css', 'less', 'scss', 'json', 'graphql', 'markdown', 'vue', 'yaml', 'html'] }
-Plug 'pangloss/vim-javascript'
+Plug 'neoclide/coc.nvim', { 'branch': 'release' }
+Plug 'scrooloose/nerdtree'
+Plug 'Xuyuanp/nerdtree-git-plugin'
+Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
+Plug 'ryanoasis/vim-devicons'
+Plug 'ctrlpvim/ctrlp.vim'
 
-" React snippets
 Plug 'SirVer/ultisnips'
 Plug 'mlaursen/vim-react-snippets'
 
+Plug 'christoomey/vim-tmux-navigator'
 
+Plug 'morhetz/gruvbox'
 
-Plug 'arcticicestudio/nord-vim'
+Plug 'HerringtonDarkholme/yats.vim' "TS Syntax
+
+Plug 'pangloss/vim-javascript'    " JavaScript support
+Plug 'leafgarland/typescript-vim' " TypeScript syntax
+Plug 'maxmellon/vim-jsx-pretty'   " JS and JSX syntax
+
+Plug 'alvan/vim-closetag'
 
 call plug#end()
 
+set encoding=UTF-8
+
+nnoremap <silent><leader>1 :source ~/.vimrc \| :PlugInstall<CR>
+
 set number " Numbers on lines
-let g:rainbow_active = 1 " Enable rainbow brackets
 
-" Change tabcolor
-set laststatus=2
-if !has('gui_running')
-	  set t_Co=256
-  endif
+inoremap jk <ESC>
+nmap <C-n> :NERDTreeToggle<CR>
 
-
-" vim autocomplete
-set complete+=kspell
-set completeopt=menuone,longest
+let g:NERDTreeIgnore = ['^node_modules$']
+let g:ctrlp_user_command = ['.git', 'cd %s && git ls-files -co --exclude-standard']
 
 " reload this configuration file
 if has ('autocmd') " Remain compatible with earlier versions
@@ -44,26 +44,46 @@ if has ('autocmd') " Remain compatible with earlier versions
   augroup END
 endif " has autocmd
 
-" Toggle NERDTree on Ctrl + n
-nmap <C-n> :NERDTreeToggle<CR>
-vmap ++ <plug>NERDCommenterToggle
-nmap ++ <plug>NERDCommenterToggle
-let g:NERDTreeGitStatusWithFlags = 1
-let g:NERDTreeIgnore = ['^node_modules$, ^vendor$']
-
-" Change colorscheme
-colorscheme nord
-
-" Vim prettier configurationPlug 
-let g:prettier#autoformat = 1
-autocmd BufWritePre *.js,*.jsx,*.mjs,*.ts,*.tsx,*.css,*.less,*.scss,*.json,*.graphql,*.md,*.vue PrettierAsync
-
 " Tab size
-set tabstop=2	
-
-" Javascript autocomplete configuration
-let g:javascript_plugin_jsdoc = 1
-let g:javascript_plugin_ngdoc = 1
-let g:javascript_plugin_flow = 1
+set tabstop=2 softtabstop=2 expandtab shiftwidth=2 smarttab
 
 
+" coc config
+let g:coc_global_extensions = [
+	\ 'coc-snippets',
+	\ 'coc-pairs',
+	\ 'coc-tsserver',
+	\ 'coc-eslint',
+	\ 'coc-prettier',
+	\ 'coc-json',
+  \ ]
+
+" Remap keys for applying codeAction to the current line.
+nmap <leader>ac  <Plug>(coc-codeaction)
+" Apply AutoFix to problem on the current line.
+nmap <leader>qf  <Plug>(coc-fix-current)
+
+" GoTo code navigation.
+nmap <silent> gd <Plug>(coc-definition)
+nmap <silent> gy <Plug>(coc-type-definition)
+nmap <silent> gi <Plug>(coc-implementation)
+nmap <silent> gr <Plug>(coc-references)
+
+
+command! -nargs=0 Prettier :CocCommand prettier.formatFile
+
+
+set bg=dark
+colorscheme gruvbox
+
+" Map CTRL+S to Save
+nnoremap <c-s> :w<CR> 
+inoremap <c-s> <Esc>:w<CR>
+vnoremap <c-s> <Esc>:w<CR>
+
+let g:UltiSnipsExpandTrigger="<C-l>"
+
+
+runtime macros/matchit.vim
+
+filetype plugin on
