@@ -26,6 +26,7 @@ Plug 'arcticicestudio/nord-vim', { 'for': 'javascript' }
 Plug 'vim-airline/vim-airline'
 Plug 'elzr/vim-json'
 Plug 'rhysd/git-messenger.vim'
+Plug 'yardnsm/vim-import-cost', { 'do': 'npm install' }
 
 call plug#end()
 
@@ -33,7 +34,7 @@ let mapleader = " "
 
 nnoremap <C-h> :tabprevious<CR>
 nnoremap <C-l> :tabnext<CR>
-nnoremap <C-b> :GitMessenger<CR>
+nnoremap <silent> <leader>g :GitMessenger<CR>
 
 set encoding=UTF-8
 
@@ -153,3 +154,22 @@ nnoremap <silent> <C-p> :Files<CR>
 nnoremap <silent> <C-f> :GFiles<CR>
 
 set nohlsearch
+
+
+" Automatically import cost
+augroup import_cost_auto_run
+  autocmd!
+  autocmd InsertLeave *.js,*.jsx,*.ts,*.tsx ImportCost
+  autocmd BufEnter *.js,*.jsx,*.ts,*.tsx ImportCost
+  autocmd CursorHold *.js,*.jsx,*.ts,*.tsx ImportCost
+augroup END
+
+command! -bang -nargs=*  All
+  \ call fzf#run(fzf#wrap({
+  \ "source": "rg --files --hidden --no-ignore-vcs --glob '!{node_modules/*,.git/*}'", 
+  \ "down": "40%", "options": "--expect=ctrl-t,ctrl-x,ctrl-v --multi --reverse" 
+  \ }))
+
+nnoremap <silent> <leader>o :All<cr>
+
+nnoremap <C-t> :tabnew<cr>
