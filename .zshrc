@@ -103,5 +103,25 @@ source $ZSH/oh-my-zsh.sh
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 alias python=python3
 alias go=z
+alias vim=nvim
+alias vimconf="nvim ~/.config/nvim/init.vim"
 
+alias con_wifi="nmcli dev wifi connect" # trust {ID} | # connect {ID}
+alias scan_bluetooth="hcitool -i hci0 scan" 
+alias con_bluetooth="bluetoothctl"
+alias fzfi='rg --files --hidden --follow --no-ignore-vcs -g "!{node_modules,.git}" | fzf'
+
+bindkey '^g' ''
+
+set -g default-terminal "xterm"
+
+export FZF_DEFAULT_OPTS='--height 96% --reverse --preview "cat {}"'
+export FZF_DEFAULT_COMMAND='ag -g ""'
+export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
+
+if [[ ! $TERM =~ screen ]]; then
+    exec tmux
+fi
+
+stty -ixon
 export TERM=xterm-256color
