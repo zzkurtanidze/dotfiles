@@ -1,0 +1,5 @@
+{
+  "coc.preferences.formatOnSaveFiletypes": ["css", "markdown", "javascript", "js", "react", "reactjs"],
+  "javascript.validate.enable": false,
+  "javascript.suggestionActions.enabled": false
+}
