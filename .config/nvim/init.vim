@@ -27,8 +27,9 @@ Plug 'yardnsm/vim-import-cost', { 'do': 'npm install' }
 Plug 'tpope/vim-fugitive'
 Plug 'lilydjwg/colorizer', { 'do': 'make install' }
 Plug 'kyazdani42/nvim-web-devicons'
-Plug 'romgrk/barbar.nvim'
-Plug 'ashisha/image.vim'
+Plug 'itsvinayak/image.vim'
+Plug 'numirias/semshi'
+Plug 'majutsushi/tagbar'
 
 call plug#end()
 
@@ -68,6 +69,8 @@ nmap <leader>a  <Plug>(coc-codeaction-selected)
 
 set encoding=UTF-8
 set scrolloff=20
+" don't unload buffers when they're not being looked at.
+set hidden
 inoremap <expr> <tab> InsertTabWrapper()
 inoremap <s-tab> <c-n>
 
@@ -92,6 +95,7 @@ let g:coc_global_extensions = [
 	\ 'coc-eslint',
 	\ 'coc-prettier',
 	\ 'coc-json',
+  \ 'coc-python'
   \ ]
 
 
@@ -117,8 +121,6 @@ set omnifunc=javascriptcomplete#CompleteJS
 
 set backspace=indent,eol,start
 
-
-set nocompatible
 if (has("termguicolors"))
   set termguicolors
 endif
@@ -145,7 +147,8 @@ let g:vim_matchtag_both = 0
 " reload this configuration file
 if has ('autocmd') " Remain compatible with earlier versions
  augroup vimrc     " Source vim configuration upon save
-    autocmd! BufWritePre *.js Prettier autocmd! BufWritePost $MYVIMRC source % | echom "Reloaded " . $MYVIMRC | redraw
+    autocmd! BufWritePre *.js Prettier 
+    autocmd! BufWritePost $MYVIMRC source % | echom "Reloaded " . $MYVIMRC | redraw
     autocmd! BufWritePost $MYGVIMRC if has('gui_running') | so % | echom "Reloaded " . $MYGVIMRC | endif | redraw
   augroup END
 endif " has autocmd
@@ -184,8 +187,18 @@ augroup END
 let g:airline_powerline_fonts = 1
 let g:airline_section_b = airline#section#create_left(['%t','%#__accent_bold#%#__restore__#%{airline#util#prepend("",0)}%{airline#util#prepend("",0)}%{airline#util#prepend("",0)}%{airline#util#prepend("",0)}%{airline#util#prepend("",0)}%{airline#util#wrap(airline#parts#filetype(),0)}'])
 let g:airline_section_c = ''
-let g:airline_sextion_x = ''
-let g:airline_section_y = ''
 let g:airline_section_z = airline#section#create_right(['%l:%v% '])
+let g:airline#extensions#tagbar#enabled = 1
+let g:airline#extensions#tabline#enabled = 1           " enable airline tabline                                                           
+let g:airline#extensions#tabline#show_close_button = 0 " remove 'X' at the end of the tabline                                            
+let g:airline#extensions#tabline#tabs_label = ''       " can put text here like BUFFERS to denote buffers (I clear it so nothing is shown)
+let g:airline#extensions#tabline#buffers_label = ''    " can put text here like TABS to denote tabs (I clear it so nothing is shown)      
+let g:airline#extensions#tabline#fnamemod = ':t'       " disable file paths in the tab                                                    
+let g:airline#extensions#tabline#show_tab_count = 0    " dont show tab numbers on the right                                                           
+let g:airline#extensions#tabline#show_buffers = 0      " dont show buffers in the tabline                                                 
+let g:airline#extensions#tabline#tab_min_count = 2     " minimum of 2 tabs needed to display the tabline                                  
+let g:airline#extensions#tabline#show_splits = 0       " disables the buffer name that displays on the right of the tabline               
+let g:airline#extensions#tabline#show_tab_nr = 0       " disable tab numbers                                                              
+let g:airline#extensions#tabline#show_tab_type = 0     " disables the weird ornage arrow on the tabline
 
-set guifont=Hack\Nerd\Font\Mono\Normal
+set mouse+=a
