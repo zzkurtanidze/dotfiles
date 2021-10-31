@@ -31,6 +31,8 @@ Plug 'numirias/semshi'
 Plug 'majutsushi/tagbar'
 Plug 'iamcco/markdown-preview.nvim', { 'do': { -> mkdp#util#install() }, 'for': ['markdown', 'vim-plug']}
 Plug 'mbbill/undotree'
+Plug 'ferrine/md-img-paste.vim'
+
 
 call plug#end()
 
@@ -39,8 +41,7 @@ call plug#end()
 let mapleader = "\<Space>"
 " Remappings
 noremap <A-h> :tabprevious<CR>
-noremap <A-l> :tabnext<CR>
-noremap <A-1> 1gt
+noremap <A-l> :tabnext<CR> noremap <A-1> 1gt
 noremap <A-2> 2gt
 noremap <A-3> 3gt
 noremap <A-4> 4gt
