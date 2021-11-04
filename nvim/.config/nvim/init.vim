@@ -1,23 +1,27 @@
+function! s:local_plug(plug_name)
+  if isdirectory(expand("~/plugins/".a:plug_name))
+    execute "Plug '~/plugins/".a:plug_name."'"
+  else
+    echoerr "Plugin does not exists."
+  endif
+endfun
+
 call plug#begin()
 
-Plug 'neoclide/coc.nvim', { 'branch': 'release' } 
 Plug 'scrooloose/nerdtree' 
 Plug 'Xuyuanp/nerdtree-git-plugin'
 Plug 'ryanoasis/vim-devicons'
 Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
 Plug 'SirVer/ultisnips' 
 Plug 'mlaursen/vim-react-snippets'
-Plug 'christoomey/vim-tmux-navigator'
 Plug 'HerringtonDarkholme/yats.vim' "TS Syntax
 Plug 'pangloss/vim-javascript'    " JavaScript support
 Plug 'leafgarland/typescript-vim' " TypeScript syntax
 Plug 'maxmellon/vim-jsx-pretty'   " JS and JSX syntax
-Plug 'leafOfTree/vim-matchtag' " Use % to toggle between tags Plug 'alvan/vim-closetag' 
+Plug 'leafOfTree/vim-matchtag' " Use % to toggle between tags 
+Plug 'alvan/vim-closetag' 
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-commentary'
-Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
-Plug 'junegunn/fzf.vim'
-Plug 'mattn/emmet-vim'
 Plug 'arcticicestudio/nord-vim', { 'for': 'javascript' }
 Plug 'vim-airline/vim-airline'
 Plug 'elzr/vim-json' 
@@ -32,16 +36,43 @@ Plug 'majutsushi/tagbar'
 Plug 'iamcco/markdown-preview.nvim', { 'do': { -> mkdp#util#install() }, 'for': ['markdown', 'vim-plug']}
 Plug 'mbbill/undotree'
 Plug 'ferrine/md-img-paste.vim'
+Plug 'nvim-lua/plenary.nvim'
+Plug 'nvim-telescope/telescope.nvim'
+Plug 'nvim-lualine/lualine.nvim'
+Plug 'mhinz/vim-startify'
 
+" LSP
+
+Plug 'neovim/nvim-lspconfig'
+Plug 'glepnir/lspsaga.nvim'
+Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
+Plug 'ms-jpq/coq_nvim', {'branch': 'coq'}
+" 9000+ Snippets
+Plug 'ms-jpq/coq.artifacts', {'branch': 'artifacts'}
+Plug 'ms-jpq/coq.thirdparty', {'branch': '3p'}
+
+"	call s:local_plug("img-paste.vim")
 
 call plug#end()
 
-" call s:local_plug("")
+"LSP
+
+lua require("lsp-config")
+lua require("lualine-conf")
+
+nnoremap <silent> K <cmd>lua require('lspsaga.hover').render_hover_doc()<CR>
+nnoremap <silent> gD <cmd>Lspsaga preview_definition<CR>
+nnoremap <silent> gh <Cmd>Lspsaga lsp_finder<CR>
+nnoremap <silent> <C-j> :Lspsaga diagnostic_jump_next<CR>
+
+
+set rtp+=~/plugins/
 
 let mapleader = "\<Space>"
 " Remappings
 noremap <A-h> :tabprevious<CR>
-noremap <A-l> :tabnext<CR> noremap <A-1> 1gt
+noremap <A-l> :tabnext<CR> 
+noremap <A-1> 1gt
 noremap <A-2> 2gt
 noremap <A-3> 3gt
 noremap <A-4> 4gt
@@ -54,14 +85,14 @@ noremap <A-9> 9gt
 noremap <C-h> <C-w>h
 noremap <C-l> <C-w>l
 " Remap keys for applying codeAction to the current line.
-nmap <leader>ac  <Plug>(coc-codeaction)
-" Apply AutoFix to problem on the current line.
-nmap <leader>qf  <Plug>(coc-fix-current)
-" GoTo code navigation.
-nmap <silent> gd <Plug>(coc-definition)
-nmap <silent> gy <Plug>(coc-type-definition)
-nmap <silent> gi <Plug>(coc-implementation)
-nmap <silent> gr <Plug>(coc-references)
+" nmap <leader>ac  <Plug>(coc-codeaction)
+" " Apply AutoFix to problem on the current line.
+" nmap <leader>qf  <Plug>(coc-fix-current)
+" " GoTo code navigation.
+" nmap <silent> gd <Plug>(coc-definition)
+" nmap <silent> gy <Plug>(coc-type-definition)
+" nmap <silent> gi <Plug>(coc-implementation)
+" nmap <silent> gr <Plug>(coc-references)
 
 " Map CTRL+S to Save
 nmap <C-s> :w<CR>
@@ -70,8 +101,8 @@ nnoremap <silent> <leader>g :GitMessenger<CR>
 
 nmap <C-n> :NERDTreeToggle<CR>
 map <leader>r :NERDTreeFind<cr>
-vmap <leader>a  <Plug>(coc-codeaction-selected)
-nmap <leader>a  <Plug>(coc-codeaction-selected)
+" vmap <leader>a  <Plug>(coc-codeaction-selected)
+" nmap <leader>a  <Plug>(coc-codeaction-selected)
 
 set encoding=UTF-8
 
@@ -96,16 +127,16 @@ let g:ctrlp_user_command = ['.git', 'cd %s && git ls-files -co --exclude-standar
 " Tab size
 set tabstop=2 softtabstop=2 shiftwidth=2 expandtab 
 
-" coc config
-let g:coc_global_extensions = [
-	\ 'coc-snippets',
-	\ 'coc-pairs',
-	\ 'coc-tsserver',
-	\ 'coc-eslint',
-	\ 'coc-prettier',
-	\ 'coc-json',
-  \ 'coc-python',
-  \ ]
+" " coc config
+" let g:coc_global_extensions = [
+" 	\ 'coc-snippets',
+" 	\ 'coc-pairs',
+" 	\ 'coc-tsserver',
+" 	\ 'coc-eslint',
+" 	\ 'coc-prettier',
+" 	\ 'coc-json',
+"   \ 'coc-python',
+"   \ ]
 
 
 filetype plugin on
@@ -119,12 +150,12 @@ let g:closetag_filenames = '*.html,*.xhtml,*.phtml,*.tsx,*.jsx,*.vue,*.svelte,*.
 command! Config execute ":e $MYVIMRC"
 command! Reload execute "source ~/.config/nvim/init.vim"
 command! W execute "w"
-command! -nargs=0 Prettier :call CocAction('runCommand', 'prettier.formatFile')
-command! -bang -nargs=*  All
-  \ call fzf#run(fzf#wrap({
-  "source": "rg --files --hidden --no-ignore-vcs --glob '!{node_modules/*,.git/*}'", 
-  "down": "40%", "options": "--expect=ctrl-t,ctrl-x,ctrl-v --multi --reverse" 
-  \ }))
+" command! -nargs=0 Prettier :call CocAction('runCommand', 'prettier.formatFile')
+"command! -bang -nargs=*  All
+"  \ call fzf#run(fzf#wrap({
+"  "source": "rg --files --hidden --no-ignore-vcs --glob '!{node_modules/*,.git/*}'", 
+"  "down": "40%", "options": "--expect=ctrl-t,ctrl-x,ctrl-v --multi --reverse" 
+"  \ }))
 
 set omnifunc=javascriptcomplete#CompleteJS
 
@@ -160,22 +191,20 @@ if has ('autocmd')
     autocmd InsertEnter * :set number
     autocmd InsertLeave * :set relativenumber 
   augroup END
-  autocmd! BufWritePre *.js Prettier 
+  " autocmd! BufWritePre *.js Prettier 
   augroup vimrc     " Source vim configuration upon save
     autocmd!
-    autocmd BufWritePost $MYVIMRC AirlineRefresh
+    " autocmd BufWritePost $MYVIMRC AirlineRefresh
   augroup END
 endif " has autocmd
 
-let g:fzf_preview_window = ['right:50%', 'ctrl-/']
-
 function! InsertTabWrapper()
-    let col = col('.') - 1
-    if !col || getline('.')[col - 1] !~ '\k'
-        return "\<tab>"
-    else
-        return "\<c-p>"
-    endif
+  let col = col('.') - 1
+  if !col || getline('.')[col - 1] !~ '\k'
+    return "\<tab>"
+  else
+    return "\<c-p>"
+  endif
 endfunction
 
 
@@ -188,19 +217,8 @@ augroup import_cost_auto_run
 augroup END
 
 " Airline config
-let g:airline_section_c = ''
-let g:airline_section_z = airline#section#create_right(['%l:%v '])
-let g:airline_section_y = airline#section#create_right([""])
-
-let g:airline_left_sep = ''
-let g:airline_left_alt_sep = ''
-let g:airline_right_sep = ''
-let g:airline_right_alt_sep = ''
-let g:airline#extensions#tabline#left_sep = ''
-let g:airline#extensions#tabline#left_alt_sep = ''
-let g:airline#extensions#tabline#right_sep = ''
-let g:airline#extensions#tabline#right_alt_sep = ''
-
+let g:airline_disable_statusline = 1
+let g:airline_powerline_fonts = 1
 let g:airline#extensions#tabline#enabled = 1           " enable airline tabline                                                           
 let g:airline#extensions#tabline#show_close_button = 0 " remove 'X' at the end of the tabline                                            
 let g:airline#extensions#tabline#tabs_label = ''       " can put text here like BUFFERS to denote buffers (I clear it so nothing is shown)
@@ -213,16 +231,16 @@ let airline#extensions#coc#warning_symbol = '⚠️ '
 let g:airline_stl_path_style = 'long'
 
 augroup highlight_yank
-    autocmd!
-    autocmd TextYankPost * silent! lua require'vim.highlight'.on_yank({timeout = 50})
+  autocmd!
+  autocmd TextYankPost * silent! lua require'vim.highlight'.on_yank({timeout = 50})
 augroup END
 
 inoremap <C-d> <esc>
 fun! EmptyRegisters()
-    let regs=split('abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789/-"', '\zs')
-    for r in regs
-        call setreg(r, [])
-    endfor
+  let regs=split('abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789/-"', '\zs')
+  for r in regs
+    call setreg(r, [])
+  endfor
 endfun
 
 " Greatest remaps
@@ -249,3 +267,6 @@ set inccommand=split
 set splitbelow
 
 set nohlsearch 
+
+nnoremap <C-p> :Telescope find_files<CR>
+nnoremap <C-b> :Telescope buffers<CR>
