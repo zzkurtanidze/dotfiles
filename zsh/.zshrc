@@ -1,3 +1,10 @@
+# Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
+# Initialization code that may require console input (password prompts, [y/n]
+# confirmations, etc.) must go above this block; everything else may go below.
+if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
+  source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
+fi
+
 # If you come from bash you might have to change your $PATH.
 # export PATH=$HOME/bin:/usr/local/bin:$PATH
 
@@ -8,7 +15,7 @@ export ZSH="/home/zkurtanidze/.oh-my-zsh"
 # load a random theme each time oh-my-zsh is loaded, in which case,
 # to know which specific one was loaded, run: echo $RANDOM_THEME
 # See https://github.com/ohmyzsh/ohmyzsh/wiki/Themes
-ZSH_THEME='robbyrussell'
+ZSH_THEME="powerlevel10k/powerlevel10k"
 
 # Set list of themes to pick from when loading at random
 # Setting this variable when ZSH_THEME=random will cause zsh to load
@@ -70,8 +77,10 @@ ZSH_THEME='robbyrussell'
 # Add wisely, as too many plugins slow down shell startup.
 plugins=(
   zsh-autosuggestions
-  zsh-dircolors-nord
 )
+
+ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE="fg=#88C0D0,bold,underline"
+bindkey '^N' autosuggestions-accept
 
 source $ZSH/oh-my-zsh.sh
 
@@ -80,9 +89,7 @@ source $ZSH/oh-my-zsh.sh
 # User configuration
 
 # export MANPATH="/usr/local/man:$MANPATH"
-
-# You may need to manually set your language environment
-# export LANG=en_US.UTF-8
+# You may need to manually set your language environment export LANG=en_US.UTF-8
 
 # Preferred editor for local and remote sessions
 # if [[ -n $SSH_CONNECTION ]]; then
@@ -107,6 +114,8 @@ alias go=z
 alias vim=nvim
 alias vimconf="nvim ~/.config/nvim/init.vim"
 alias tmuxconf="nvim ~/.tmux.conf"
+alias termconf="nvim ~/.config/alacritty/alacritty.yml"
+alias zshconf="nvim ~/.zshrc"
 
 alias con_wifi="nmcli dev wifi connect" 
 alias scan_bluetooth="hcitool -i hci0 scan" 
@@ -122,6 +131,47 @@ export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
 
 stty -ixon
 export TERM=xterm-256color
-source ~/.zsh/zsh-dircolors-nord/zsh-dircolors-nord.zsh
 
 test -r "~/.dir_colors" && eval $(dircolors ~/.dir_colors)
+
+# To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
+[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
+
+test -r ~/.dir_colors && eval $(dircolors ~/.dir_colors)
+
+POWERLEVEL9K_LEFT_PROMPT_ELEMENTS=(
+    context
+    dir
+    vcs
+    newline
+    os_icon
+)
+POWERLEVEL9K_RIGHT_PROMPT_ELEMENTS=(
+    status
+    command_execution_time
+    background_jobs
+    time
+)
+
+POWERLEVEL9K_DIR_BACKGROUND='#5E81AC'
+POWERLEVEL9K_DIR_FOREGROUND="#D8DEE9"
+POWERLEVEL9K_DIR_SHORTENED_FOREGROUND="#D8DEE9"
+POWERLEVEL9K_DIR_ANCHOR_FOREGROUND="#D8DEE9"
+POWERLEVEL9K_VCS_CLEAN_BACKGROUND='#88C0D0'
+POWERLEVEL9K_VCS_MODIFIED_BACKGROUND='#88C0D0'
+POWERLEVEL9K_VCS_UNTRACKED_BACKGROUND='#88C0D0'
+POWERLEVEL9K_VCS_CONFLICTED_BACKGROUND='#88C0D0'
+POWERLEVEL9K_VCS_LOADING_BACKGROUND='#88C0D0' 
+
+POWERLEVEL9K_TIME_FOREGROUND='#E5E9F0'
+POWERLEVEL9K_TIME_BACKGROUND='#4C566A'
+
+POWERLEVEL9K_VCS_BRANCH_ICON=" "
+
+POWERLEVEL9K_OS_ICON_FOREGROUND="#3B4252"
+POWERLEVEL9K_OS_ICON_BACKGROUND="#7EB2C1"
+POWERLEVEL9K_OS_ICON_CONTENT_EXPANSION='☭'
+
+POWERLEVEL9K_MULTILINE_FIRST_PROMPT_GAP_CHAR='─'
+
+
