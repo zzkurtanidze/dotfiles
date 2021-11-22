@@ -8,8 +8,7 @@ endfun
 
 call plug#begin()
 
-Plug 'scrooloose/nerdtree' 
-Plug 'Xuyuanp/nerdtree-git-plugin'
+Plug 'preservim/nerdtree'
 Plug 'ryanoasis/vim-devicons'
 Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
 Plug 'SirVer/ultisnips' 
@@ -17,6 +16,8 @@ Plug 'mlaursen/vim-react-snippets'
 Plug 'HerringtonDarkholme/yats.vim' "TS Syntax
 Plug 'pangloss/vim-javascript'    " JavaScript support
 Plug 'leafgarland/typescript-vim' " TypeScript syntax
+Plug 'mxw/vim-jsx'
+Plug 'neoclide/vim-jsx-improve'
 Plug 'maxmellon/vim-jsx-pretty'   " JS and JSX syntax
 Plug 'leafOfTree/vim-matchtag' " Use % to toggle between tags 
 Plug 'alvan/vim-closetag' 
@@ -30,6 +31,7 @@ Plug 'yardnsm/vim-import-cost', { 'do': 'npm install' }
 Plug 'tpope/vim-fugitive'
 Plug 'lilydjwg/colorizer', { 'do': 'make install' }
 Plug 'kyazdani42/nvim-web-devicons'
+Plug 'kyazdani42/nvim-tree.lua'
 Plug 'itsvinayak/image.vim'
 Plug 'numirias/semshi'
 Plug 'majutsushi/tagbar'
@@ -39,32 +41,39 @@ Plug 'ferrine/md-img-paste.vim'
 Plug 'nvim-lua/plenary.nvim'
 Plug 'nvim-telescope/telescope.nvim'
 Plug 'nvim-lualine/lualine.nvim'
+Plug 'maaslalani/slides'
+Plug 'windwp/nvim-autopairs'
+Plug 'karb94/neoscroll.nvim'
 Plug 'mhinz/vim-startify'
 
 " LSP
 
 Plug 'neovim/nvim-lspconfig'
-Plug 'glepnir/lspsaga.nvim'
+Plug 'williamboman/nvim-lsp-installer'
 Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
-Plug 'ms-jpq/coq_nvim', {'branch': 'coq'}
-" 9000+ Snippets
-Plug 'ms-jpq/coq.artifacts', {'branch': 'artifacts'}
-Plug 'ms-jpq/coq.thirdparty', {'branch': '3p'}
+Plug 'quangnguyen30192/cmp-nvim-ultisnips'
+Plug 'hrsh7th/cmp-nvim-lsp'
+Plug 'hrsh7th/cmp-buffer'
+Plug 'hrsh7th/cmp-path'
+Plug 'hrsh7th/cmp-cmdline'
+Plug 'hrsh7th/nvim-cmp'
+Plug 'onsails/lspkind-nvim'
+Plug 'jose-elias-alvarez/nvim-lsp-ts-utils'
 
 "	call s:local_plug("img-paste.vim")
+set rnu
 
 call plug#end()
 
 "LSP
 
+
+"let g:coq_settings = { 'auto_start': 'shut-up', 'keymap': { 'jump_to_mark': '<c-c>' } }
+lua require("completion")
 lua require("lsp-config")
 lua require("lualine-conf")
-
-nnoremap <silent> K <cmd>lua require('lspsaga.hover').render_hover_doc()<CR>
-nnoremap <silent> gD <cmd>Lspsaga preview_definition<CR>
-nnoremap <silent> gh <Cmd>Lspsaga lsp_finder<CR>
-nnoremap <silent> <C-j> :Lspsaga diagnostic_jump_next<CR>
-
+lua require("telescope-conf")
+lua require("autopairs")
 
 set rtp+=~/plugins/
 
@@ -84,6 +93,9 @@ noremap <A-9> 9gt
 
 noremap <C-h> <C-w>h
 noremap <C-l> <C-w>l
+noremap <C-j> <C-w>j
+noremap <C-k> <C-w>k
+
 " Remap keys for applying codeAction to the current line.
 " nmap <leader>ac  <Plug>(coc-codeaction)
 " " Apply AutoFix to problem on the current line.
@@ -96,11 +108,12 @@ noremap <C-l> <C-w>l
 
 " Map CTRL+S to Save
 nmap <C-s> :w<CR>
+inoremap <C-s> <ESC>:w<CR>i
 
 nnoremap <silent> <leader>g :GitMessenger<CR>
 
 nmap <C-n> :NERDTreeToggle<CR>
-map <leader>r :NERDTreeFind<cr>
+nnoremap <leader>r :NERDTreeFind<CR>
 " vmap <leader>a  <Plug>(coc-codeaction-selected)
 " nmap <leader>a  <Plug>(coc-codeaction-selected)
 
@@ -113,20 +126,15 @@ set scrolloff=20
 
 " don't unload buffers when they're not being looked at.
 set hidden
-inoremap <expr> <tab> InsertTabWrapper()
-inoremap <s-tab> <c-n>
-
 nnoremap <silent> <C-p> :Files<CR>
 nnoremap <silent> <C-f> :GFiles<CR>
-nnoremap <C-t> :tabnew<cr>
-
 
 let g:NERDTreeIgnore = ['^node_modules$']
-let g:ctrlp_user_command = ['.git', 'cd %s && git ls-files -co --exclude-standard']
 
 " Tab size
 set tabstop=2 softtabstop=2 shiftwidth=2 expandtab 
 
+nnoremap <leader>a :PlugUpdate
 " " coc config
 " let g:coc_global_extensions = [
 " 	\ 'coc-snippets',
@@ -177,6 +185,10 @@ noswapfile
 syntax enable
 
 hi Search guibg=#5E81AC guifg=#E5E9F0
+hi DashboardHeader guifg=#81A1C1
+hi DashboardCenter guifg=#8FBCBB
+hi CmpItemMenu guifg=#D08770
+hi CmpItemAbbrMatch guifg=#191
 
 set hlsearch
 set hid
@@ -187,11 +199,6 @@ hi SpellBad guibg=#BF616A guifg=#E5E9F0 cterm=underline
 let g:vim_matchtag_both = 0
 
 if has ('autocmd') 
-  augroup numbers
-    autocmd InsertEnter * :set number
-    autocmd InsertLeave * :set relativenumber 
-  augroup END
-  " autocmd! BufWritePre *.js Prettier 
   augroup vimrc     " Source vim configuration upon save
     autocmd!
     " autocmd BufWritePost $MYVIMRC AirlineRefresh
@@ -249,8 +256,8 @@ vnoremap K :m '<-2<CR>gv=gv
 inoremap <C-j> <esc>:m .+1<CR>==i
 inoremap <C-k> <esc>:m .-2<CR>==i
 nnoremap <leader>k :m .-2<CR>==
-
 nnoremap <leader>j :m .+1<CR>==
+
 nnoremap <leader>y "+y
 vnoremap <leader>y "+y
 nnoremap <leader>Y gg"+yG
@@ -269,4 +276,67 @@ set splitbelow
 set nohlsearch 
 
 nnoremap <C-p> :Telescope find_files<CR>
-nnoremap <C-b> :Telescope buffers<CR>
+nnoremap <C-g> :Telescope live_grep<CR>
+" nnoremap <C-b> :Telescope buffers<CR>
+
+nnoremap <leader>gr :Telescope lsp_references<CR>
+nnoremap <leader>gd :Telescope lsp_definition<CR>
+nnoremap <leader>gc :Telescope find_files cwd=~/.config/nvim/<CR>
+
+let g:UltiSnipsExpandTrigger="<tab>"
+let g:UltiSnipsJumpForwardTrigger="<c-b>"
+let g:UltiSnipsJumpBackwardTrigger="<c-z>"
+
+
+" Press \r to start rotating lines and <C-c> (Control+c) to stop.
+
+function! s:RotateString(string)
+    let split_string = split(a:string, '\zs')
+    return join(split_string[-1:] + split_string[:-2], '')
+endfunction
+
+function! s:RotateLine(line, leading_whitespace, trailing_whitespace)
+    return substitute(
+        \ a:line,
+        \ '^\(' . a:leading_whitespace . '\)\(.\{-}\)\(' . a:trailing_whitespace . '\)$',
+        \ '\=submatch(1) . <SID>RotateString(submatch(2)) . submatch(3)',
+        \ ''
+    \ )
+endfunction
+
+function! s:RotateLines()
+    let saved_view = winsaveview()
+    let first_visible_line = line('w0')
+    let last_visible_line = line('w$')
+    let lines = getline(first_visible_line, last_visible_line)
+    let leading_whitespace = map(
+        \ range(len(lines)),
+        \ 'matchstr(lines[v:val], ''^\s*'')'
+    \ )
+    let trailing_whitespace = map(
+        \ range(len(lines)),
+        \ 'matchstr(lines[v:val], ''\s*$'')'
+    \ )
+    try
+        while 1 " <C-c> to exit
+            let lines = map(
+                \ range(len(lines)),
+                \ '<SID>RotateLine(lines[v:val], leading_whitespace[v:val], trailing_whitespace[v:val])'
+            \ )
+            call setline(first_visible_line, lines)
+            redraw
+            sleep 50m
+        endwhile
+    finally
+        if &modified
+            silent undo
+        endif
+        call winrestview(saved_view)
+    endtry
+endfunction
+
+nnoremap <silent> <Plug>(RotateLines) :<C-u>call <SID>RotateLines()<CR>
+
+nmap \r <Plug>(RotateLines)
+
+set guicursor=i:ver25-iCursor

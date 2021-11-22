@@ -1,3 +1,6 @@
+local lspkind = require "lspkind"
+lspkind.init()
+
 local cmp = require "cmp"
 
 vim.o.completeopt = "menuone,noselect"
@@ -63,10 +66,23 @@ cmp.setup {
   },
 
   experimental = {
-    native_menu = false,
-
+    native_menu = true,
     ghost_text = true,
   },
+
+  formatting = {
+    -- Youtube: How to set up nice formatting for your sources.
+    format = lspkind.cmp_format {
+      with_text = true,
+      menu = {
+        buffer = "[buf]",
+        nvim_lsp = "[LSP]",
+        path = "[path]",
+        ultisnips = "[snip]",
+      },
+    },
+  },
+
 }
 
 cmp.setup.cmdline("/", {
@@ -101,18 +117,4 @@ cmp.setup.cmdline(":", {
     },
   }),
 })
-
---[[
-" Setup buffer configuration (nvim-lua source only enables in Lua filetype).
-"
-" ON YOUTUBE I SAID: This only _adds_ sources for a filetype, not removes the global ones.
-"
-" BUT I WAS WRONG! This will override the global setup. Sorry for any confusion.
-autocmd FileType lua lua require'cmp'.setup.buffer {
-\   sources = {
-\     { name = 'nvim_lua' },
-\     { name = 'buffer' },
-\   },
-\ }
---]]
 

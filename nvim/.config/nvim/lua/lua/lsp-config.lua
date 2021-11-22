@@ -1,7 +1,6 @@
 local nvim_lsp = require('lspconfig')
 local capabilities = require('cmp_nvim_lsp').update_capabilities(vim.lsp.protocol.make_client_capabilities())
 
-
 local on_attach = function(client, bufnr)
   local function buf_set_keymap(...) vim.api.nvim_buf_set_keymap(bufnr, ...) end
   local opts = { noremap=true, silent=true }
@@ -22,6 +21,32 @@ local on_attach = function(client, bufnr)
   })
   ts_utils.setup_client(client)
 end
+
+nvim_lsp.intelephense.setup({
+    settings = {
+        intelephense = {
+            stubs = { 
+                "bcmath",
+                "bz2",
+                "calendar",
+                "Core",
+                "curl",
+                "zip",
+                "zlib",
+                "wordpress",
+                "woocommerce",
+                "acf-pro",
+                "wordpress-globals",
+                "wp-cli",
+                "genesis",
+                "polylang"
+            },
+            files = {
+                maxSize = 5000000;
+            };
+        };
+    }
+});
 
 nvim_lsp.diagnosticls.setup {
   on_attach = on_attach,
@@ -86,7 +111,7 @@ vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
     underline = true,
     virtual_text = {
       spacing = 5,
-      prefix = '⬢'
+      prefix = ' ⬢  '
     }
   }
 )
