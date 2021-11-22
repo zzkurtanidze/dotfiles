@@ -1,16 +1,13 @@
 font:
   normal:
-    family: Hack Nerd Font Mono
-    family: JetBrainsMono Nerd Font Mono
-  size: 12
-# Colors (Nord)
+    family: JetBrainsMono Nerd Font
+  size: 13
+  use_thin_strokes: true
 colors:
-  # Default colors
   primary:
     background: '0x2E3440'
     foreground: '0xD8DEE9'
 
-  # Normal colors
   normal:
     black:   '0x3B4252'
     red:     '0xBF616A'
@@ -21,7 +18,6 @@ colors:
     cyan:    '0x88C0D0'
     white:   '0xE5E9F0'
 
-  # Bright colors
   bright:
     black:   '0x4C566A'
     red:     '0xBF616A'
@@ -31,3 +27,7 @@ colors:
     magenta: '0xB48EAD'
     cyan:    '0x8FBCBB'
     white:   '0xECEFF4'
+cursor:
+  style: Beam
+mouse:
+  hide_when_typing: true
