@@ -1,15 +1,14 @@
 local function NOMOUSE()
-  return [[  ]]
+  eturn [[  ]]
 end
 
 require'lualine'.setup {
   options = {
     icons_enabled = true,
-    theme = 'auto',
-    component_separators = { left = '', right = ''},
-    section_separators = { left = '', right = ''},
-    disabled_filetypes = {},
-    always_divide_middle = false,
+    theme = 'nord',
+    component_separators = { left = '', right = ''},
+    section_separators = { left = '', right = ''},
+    always_divide_middle = true,
   },
   sections = {
     lualine_a = {'mode'},
@@ -31,3 +30,4 @@ require'lualine'.setup {
   tabline = {},
   extensions = {'quickfix'}
 }
+
