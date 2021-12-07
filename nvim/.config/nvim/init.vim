@@ -25,8 +25,6 @@ Plug 'tpope/vim-surround'
 Plug 'tpope/vim-commentary'
 Plug 'arcticicestudio/nord-vim', { 'for': 'javascript' }
 Plug 'vim-airline/vim-airline'
-Plug 'elzr/vim-json' 
-Plug 'rhysd/git-messenger.vim'
 Plug 'yardnsm/vim-import-cost', { 'do': 'npm install' }
 Plug 'tpope/vim-fugitive'
 Plug 'lilydjwg/colorizer', { 'do': 'make install' }
@@ -36,14 +34,11 @@ Plug 'itsvinayak/image.vim'
 Plug 'numirias/semshi'
 Plug 'majutsushi/tagbar'
 Plug 'iamcco/markdown-preview.nvim', { 'do': { -> mkdp#util#install() }, 'for': ['markdown', 'vim-plug']}
-Plug 'mbbill/undotree'
-Plug 'ferrine/md-img-paste.vim'
 Plug 'nvim-lua/plenary.nvim'
 Plug 'nvim-telescope/telescope.nvim'
 Plug 'nvim-lualine/lualine.nvim'
 Plug 'maaslalani/slides'
 Plug 'windwp/nvim-autopairs'
-Plug 'karb94/neoscroll.nvim'
 Plug 'mhinz/vim-startify'
 
 " LSP
@@ -67,12 +62,12 @@ call plug#end()
 
 "LSP
 
-
 "let g:coq_settings = { 'auto_start': 'shut-up', 'keymap': { 'jump_to_mark': '<c-c>' } }
 lua require("completion")
 lua require("lsp-config")
 lua require("lualine-conf")
 lua require("telescope-conf")
+lua require("nvimtree-conf")
 lua require("autopairs")
 
 set rtp+=~/plugins/
@@ -112,8 +107,8 @@ inoremap <C-s> <ESC>:w<CR>i
 
 nnoremap <silent> <leader>g :GitMessenger<CR>
 
-nmap <C-n> :NERDTreeToggle<CR>
-nnoremap <leader>r :NERDTreeFind<CR>
+nmap <C-n> :NvimTreeToggle<CR>
+nnoremap <leader>r :NvimTreeFindFile<CR>
 " vmap <leader>a  <Plug>(coc-codeaction-selected)
 " nmap <leader>a  <Plug>(coc-codeaction-selected)
 
@@ -134,7 +129,7 @@ let g:NERDTreeIgnore = ['^node_modules$']
 " Tab size
 set tabstop=2 softtabstop=2 shiftwidth=2 expandtab 
 
-nnoremap <leader>a :PlugUpdate
+nnoremap <leader>a :PlugInstall<CR>
 " " coc config
 " let g:coc_global_extensions = [
 " 	\ 'coc-snippets',
@@ -340,3 +335,17 @@ nnoremap <silent> <Plug>(RotateLines) :<C-u>call <SID>RotateLines()<CR>
 nmap \r <Plug>(RotateLines)
 
 set guicursor=i:ver25-iCursor
+
+autocmd BufEnter,FileType NvimTree call LuaTreeHideCursor()
+autocmd BufLeave,BufWinLeave,WinClosed NvimTree call LuaTreeShowCursor()
+
+function! LuaTreeHideCursor()
+  highlight! Cursor blend=100
+  set guicursor=n:Cursor/lCursor,v-c-sm:block,i-ci-ve:ver25,r-cr-o:hor20
+endfunction
+
+function! LuaTreeShowCursor()
+  highlight! Cursor blend=NONE
+  set guicursor=n-v-c-sm:block,i-ci-ve:ver25,r-cr-o:hor20
+endfunction
+
