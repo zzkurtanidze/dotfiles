@@ -8,17 +8,13 @@ endfun
 
 call plug#begin()
 
-Plug 'preservim/nerdtree'
 Plug 'ryanoasis/vim-devicons'
-Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
 Plug 'SirVer/ultisnips' 
 Plug 'mlaursen/vim-react-snippets'
 Plug 'HerringtonDarkholme/yats.vim' "TS Syntax
 Plug 'pangloss/vim-javascript'    " JavaScript support
 Plug 'leafgarland/typescript-vim' " TypeScript syntax
-Plug 'mxw/vim-jsx'
 Plug 'neoclide/vim-jsx-improve'
-Plug 'maxmellon/vim-jsx-pretty'   " JS and JSX syntax
 Plug 'leafOfTree/vim-matchtag' " Use % to toggle between tags 
 Plug 'alvan/vim-closetag' 
 Plug 'tpope/vim-surround'
@@ -36,10 +32,12 @@ Plug 'majutsushi/tagbar'
 Plug 'iamcco/markdown-preview.nvim', { 'do': { -> mkdp#util#install() }, 'for': ['markdown', 'vim-plug']}
 Plug 'nvim-lua/plenary.nvim'
 Plug 'nvim-telescope/telescope.nvim'
-Plug 'nvim-lualine/lualine.nvim'
 Plug 'maaslalani/slides'
 Plug 'windwp/nvim-autopairs'
 Plug 'mhinz/vim-startify'
+Plug 'romgrk/barbar.nvim'
+Plug 'glepnir/galaxyline.nvim'
+Plug 'lewis6991/gitsigns.nvim'
 
 " LSP
 
@@ -55,7 +53,8 @@ Plug 'hrsh7th/nvim-cmp'
 Plug 'onsails/lspkind-nvim'
 Plug 'jose-elias-alvarez/nvim-lsp-ts-utils'
 
-"	call s:local_plug("img-paste.vim")
+call s:local_plug("inlinegit.nvim")
+
 set rnu
 
 call plug#end()
@@ -69,13 +68,15 @@ lua require("lualine-conf")
 lua require("telescope-conf")
 lua require("nvimtree-conf")
 lua require("autopairs")
+lua require("gitsigns-conf")
+lua require("barbar-conf")
 
 set rtp+=~/plugins/
 
 let mapleader = "\<Space>"
 " Remappings
-noremap <A-h> :tabprevious<CR>
-noremap <A-l> :tabnext<CR> 
+noremap <A-h> :bprev<CR>
+noremap <A-l> :bnext<CR> 
 noremap <A-1> 1gt
 noremap <A-2> 2gt
 noremap <A-3> 3gt
@@ -105,10 +106,9 @@ noremap <C-k> <C-w>k
 nmap <C-s> :w<CR>
 inoremap <C-s> <ESC>:w<CR>i
 
-nnoremap <silent> <leader>g :GitMessenger<CR>
-
 nmap <C-n> :NvimTreeToggle<CR>
 nnoremap <leader>r :NvimTreeFindFile<CR>
+nnoremap <C-c> :bd<CR>
 " vmap <leader>a  <Plug>(coc-codeaction-selected)
 " nmap <leader>a  <Plug>(coc-codeaction-selected)
 
@@ -221,7 +221,7 @@ augroup END
 " Airline config
 let g:airline_disable_statusline = 1
 let g:airline_powerline_fonts = 1
-let g:airline#extensions#tabline#enabled = 1           " enable airline tabline                                                           
+let g:airline#extensions#tabline#enabled = 0           " enable airline tabline                                                           
 let g:airline#extensions#tabline#show_close_button = 0 " remove 'X' at the end of the tabline                                            
 let g:airline#extensions#tabline#tabs_label = ''       " can put text here like BUFFERS to denote buffers (I clear it so nothing is shown)
 let g:airline#extensions#tabline#buffers_label = ''    " can put text here like TABS to denote tabs (I clear it so nothing is shown)      
@@ -272,11 +272,12 @@ set nohlsearch
 
 nnoremap <C-p> :Telescope find_files<CR>
 nnoremap <C-g> :Telescope live_grep<CR>
-" nnoremap <C-b> :Telescope buffers<CR>
+nnoremap <C-b> :Telescope buffers<CR>
 
 nnoremap <leader>gr :Telescope lsp_references<CR>
 nnoremap <leader>gd :Telescope lsp_definition<CR>
 nnoremap <leader>gc :Telescope find_files cwd=~/.config/nvim/<CR>
+
 
 let g:UltiSnipsExpandTrigger="<tab>"
 let g:UltiSnipsJumpForwardTrigger="<c-b>"
@@ -348,4 +349,3 @@ function! LuaTreeShowCursor()
   highlight! Cursor blend=NONE
   set guicursor=n-v-c-sm:block,i-ci-ve:ver25,r-cr-o:hor20
 endfunction
-
