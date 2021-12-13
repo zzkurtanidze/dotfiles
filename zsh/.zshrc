@@ -76,11 +76,13 @@ ZSH_THEME="powerlevel10k/powerlevel10k"
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
 plugins=(
+  git
   zsh-autosuggestions
+  zsh-syntax-highlighting
 )
 
-ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE="fg=#88C0D0,bold,underline"
-bindkey '^N' autosuggestions-accept
+ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE="fg=#3B4252,bold,underline"
+bindkey '^N' autosuggest-accept
 
 source $ZSH/oh-my-zsh.sh
 
@@ -166,7 +168,7 @@ POWERLEVEL9K_VCS_LOADING_BACKGROUND='#88C0D0'
 POWERLEVEL9K_TIME_FOREGROUND='#E5E9F0'
 POWERLEVEL9K_TIME_BACKGROUND='#4C566A'
 
-POWERLEVEL9K_VCS_BRANCH_ICON=" "
+POWERLEVEL9K_VCS_BRANCH_ICON=" "
 
 POWERLEVEL9K_OS_ICON_FOREGROUND="#3B4252"
 POWERLEVEL9K_OS_ICON_BACKGROUND="#7EB2C1"
@@ -174,4 +176,9 @@ POWERLEVEL9K_OS_ICON_CONTENT_EXPANSION='☭'
 
 POWERLEVEL9K_MULTILINE_FIRST_PROMPT_GAP_CHAR='─'
 
-
+# BEGIN SNIPPET: Platform.sh CLI configuration
+HOME=${HOME:-'/home/zkurtanidze'}
+export PATH="$HOME/"'.platformsh/bin':"$PATH"
+if [ -f "$HOME/"'.platformsh/shell-config.rc' ]; then . "$HOME/"'.platformsh/shell-config.rc'; fi # END SNIPPET
+export VOLTA_HOME="$HOME/.volta"
+export PATH="$VOLTA_HOME/bin:$PATH"
