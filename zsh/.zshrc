@@ -118,6 +118,7 @@ alias vimconf="nvim ~/.config/nvim/init.vim"
 alias tmuxconf="nvim ~/.tmux.conf"
 alias termconf="nvim ~/.config/alacritty/alacritty.yml"
 alias zshconf="nvim ~/.zshrc"
+alias autojournal="ssh root@165.232.153.9"
 
 alias con_wifi="nmcli dev wifi connect" 
 alias scan_bluetooth="hcitool -i hci0 scan" 
@@ -172,7 +173,7 @@ POWERLEVEL9K_VCS_BRANCH_ICON=" "
 
 POWERLEVEL9K_OS_ICON_FOREGROUND="#3B4252"
 POWERLEVEL9K_OS_ICON_BACKGROUND="#7EB2C1"
-POWERLEVEL9K_OS_ICON_CONTENT_EXPANSION='☭'
+POWERLEVEL9K_OS_ICON_CONTENT_EXPANSION=''
 
 POWERLEVEL9K_MULTILINE_FIRST_PROMPT_GAP_CHAR='─'
 
@@ -180,5 +181,7 @@ POWERLEVEL9K_MULTILINE_FIRST_PROMPT_GAP_CHAR='─'
 HOME=${HOME:-'/home/zkurtanidze'}
 export PATH="$HOME/"'.platformsh/bin':"$PATH"
 if [ -f "$HOME/"'.platformsh/shell-config.rc' ]; then . "$HOME/"'.platformsh/shell-config.rc'; fi # END SNIPPET
-export VOLTA_HOME="$HOME/.volta"
-export PATH="$VOLTA_HOME/bin:$PATH"
+
+typeset -g POWERLEVEL9K_INSTANT_PROMPT=quiet
+
+
