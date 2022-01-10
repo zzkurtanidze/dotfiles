@@ -3,14 +3,20 @@ local capabilities = require('cmp_nvim_lsp').update_capabilities(vim.lsp.protoco
 
 local on_attach = function(client, bufnr)
   local function buf_set_keymap(...) vim.api.nvim_buf_set_keymap(bufnr, ...) end
-  local opts = { noremap=true, silent=true }
+
+  local opts = { noremap = true, silent = true }
+
   buf_set_keymap('n', 'gd', '<Cmd>lua vim.lsp.buf.definition()<CR>', opts)
+  buf_set_keymap('n', 'gr', '<Cmd>lua vim.lsp.buf.references()<CR>', opts)
+  buf_set_keymap('n', 'K', '<cmd>lua vim.lsp.buf.hover()<CR>', opts)
+
   if client.resolved_capabilities.document_formatting then
     vim.api.nvim_command [[augroup Format]]
     vim.api.nvim_command [[autocmd! * <buffer>]]
     vim.api.nvim_command [[autocmd BufWritePre <buffer> lua vim.lsp.buf.formatting_seq_sync()]]
     vim.api.nvim_command [[augroup END]]
   end
+
   local ts_utils = require("nvim-lsp-ts-utils")
   ts_utils.setup({
     eslint_bin = "eslint_d",
@@ -19,6 +25,7 @@ local on_attach = function(client, bufnr)
     enable_formatting = true,
     formatter = "prettier",
   })
+
   ts_utils.setup_client(client)
 end
 
@@ -69,8 +76,7 @@ nvim_lsp.diagnosticls.setup {
           security = 'severity'
         },
         securities = {
-          [2] = 'error',
-          [1] = 'warning'
+          [2] = 'error'
         }
       },
     },
@@ -112,7 +118,8 @@ vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
     virtual_text = {
       spacing = 5,
       prefix = ''
-    }
+    },
+    update_in_insert = true,
   }
 )
 
@@ -142,11 +149,3 @@ nvim_lsp.tsserver.setup {
   on_attach = on_attach,
   capabilities = capabilities
 } 
-
-
-
-
-
-
-
-

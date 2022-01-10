@@ -1,6 +1,6 @@
 -- Set barbar's options
 vim.g.bufferline = {
-  tabpages = true,
+  tabpages = false,
   closable = false,
   clickable = false,
   -- If set, the icon color will follow its corresponding buffer
@@ -22,7 +22,7 @@ vim.g.bufferline = {
   insert_at_start = false,
 
   -- Sets the maximum padding width with which to surround each tab
-  maximum_padding = 1,
+  maximum_padding = 2,
 
   -- Sets the maximum buffer name length.
   maximum_length = 30,

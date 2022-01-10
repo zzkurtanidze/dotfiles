@@ -6,7 +6,7 @@ function! s:local_plug(plug_name)
   endif
 endfun
 
-call plug#begin()
+call plug#begin("~/.config/nvim/plugged/")
 
 Plug 'ryanoasis/vim-devicons'
 Plug 'SirVer/ultisnips' 
@@ -15,20 +15,17 @@ Plug 'HerringtonDarkholme/yats.vim' "TS Syntax
 Plug 'pangloss/vim-javascript'    " JavaScript support
 Plug 'leafgarland/typescript-vim' " TypeScript syntax
 Plug 'neoclide/vim-jsx-improve'
+Plug 'mxw/vim-jsx'
 Plug 'leafOfTree/vim-matchtag' " Use % to toggle between tags 
 Plug 'alvan/vim-closetag' 
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-commentary'
 Plug 'arcticicestudio/nord-vim', { 'for': 'javascript' }
-Plug 'vim-airline/vim-airline'
 Plug 'yardnsm/vim-import-cost', { 'do': 'npm install' }
 Plug 'tpope/vim-fugitive'
 Plug 'lilydjwg/colorizer', { 'do': 'make install' }
 Plug 'kyazdani42/nvim-web-devicons'
 Plug 'kyazdani42/nvim-tree.lua'
-Plug 'itsvinayak/image.vim'
-Plug 'numirias/semshi'
-Plug 'majutsushi/tagbar'
 Plug 'iamcco/markdown-preview.nvim', { 'do': { -> mkdp#util#install() }, 'for': ['markdown', 'vim-plug']}
 Plug 'nvim-lua/plenary.nvim'
 Plug 'nvim-telescope/telescope.nvim'
@@ -53,15 +50,15 @@ Plug 'hrsh7th/nvim-cmp'
 Plug 'onsails/lspkind-nvim'
 Plug 'jose-elias-alvarez/nvim-lsp-ts-utils'
 
-call s:local_plug("inlinegit.nvim")
+" call s:local_plug("inlinegit.nvim")
 
 set rnu
+set number
 
 call plug#end()
 
 "LSP
 
-"let g:coq_settings = { 'auto_start': 'shut-up', 'keymap': { 'jump_to_mark': '<c-c>' } }
 lua require("completion")
 lua require("lsp-config")
 lua require("lualine-conf")
@@ -75,49 +72,34 @@ set rtp+=~/plugins/
 
 let mapleader = "\<Space>"
 " Remappings
-noremap <A-h> :bprev<CR>
-noremap <A-l> :bnext<CR> 
-noremap <A-1> 1gt
-noremap <A-2> 2gt
-noremap <A-3> 3gt
-noremap <A-4> 4gt
-noremap <A-5> 5gt
-noremap <A-6> 6gt
-noremap <A-7> 7gt
-noremap <A-8> 8gt
-noremap <A-9> 9gt
+noremap <silent> <A-h> :bprev<CR>
+noremap <silent> <A-l> :bnext<CR> 
+noremap <silent> <A-1> :BufferGoto 1<CR>
+noremap <silent> <A-2> :BufferGoto 2<CR>
+noremap <silent> <A-3> :BufferGoto 3<CR>
+noremap <silent> <A-4> :BufferGoto 4<CR>
+noremap <silent> <A-5> :BufferGoto 5<CR>
+noremap <silent> <A-6> :BufferGoto 6<CR>
+noremap <silent> <A-7> :BufferGoto 7<CR>
+noremap <silent> <A-8> :BufferGoto 8<CR>
+noremap <silent> <A-9> :BufferGoto 9<CR>
+noremap <silent> <A-0> :BufferLast<CR>
 
 noremap <C-h> <C-w>h
 noremap <C-l> <C-w>l
 noremap <C-j> <C-w>j
 noremap <C-k> <C-w>k
 
-" Remap keys for applying codeAction to the current line.
-" nmap <leader>ac  <Plug>(coc-codeaction)
-" " Apply AutoFix to problem on the current line.
-" nmap <leader>qf  <Plug>(coc-fix-current)
-" " GoTo code navigation.
-" nmap <silent> gd <Plug>(coc-definition)
-" nmap <silent> gy <Plug>(coc-type-definition)
-" nmap <silent> gi <Plug>(coc-implementation)
-" nmap <silent> gr <Plug>(coc-references)
-
-" Map CTRL+S to Save
 nmap <C-s> :w<CR>
 inoremap <C-s> <ESC>:w<CR>i
 
 nmap <C-n> :NvimTreeToggle<CR>
 nnoremap <leader>r :NvimTreeFindFile<CR>
 nnoremap <C-c> :bd<CR>
-" vmap <leader>a  <Plug>(coc-codeaction-selected)
-" nmap <leader>a  <Plug>(coc-codeaction-selected)
 
 set encoding=UTF-8
 
 set scrolloff=20
-" !if
-" nnoremap n nzzzv
-" nnoremap N Nzzzv
 
 " don't unload buffers when they're not being looked at.
 set hidden
@@ -128,21 +110,6 @@ let g:NERDTreeIgnore = ['^node_modules$']
 
 " Tab size
 set tabstop=2 softtabstop=2 shiftwidth=2 expandtab 
-
-nnoremap <leader>a :PlugInstall<CR>
-" " coc config
-" let g:coc_global_extensions = [
-" 	\ 'coc-snippets',
-" 	\ 'coc-pairs',
-" 	\ 'coc-tsserver',
-" 	\ 'coc-eslint',
-" 	\ 'coc-prettier',
-" 	\ 'coc-json',
-"   \ 'coc-python',
-"   \ ]
-
-
-filetype plugin on
 filetype indent on
 
 let g:vim_matchtag_enable_by_default = 1
@@ -152,15 +119,6 @@ let g:closetag_filenames = '*.html,*.xhtml,*.phtml,*.tsx,*.jsx,*.vue,*.svelte,*.
 " commands
 command! Config execute ":e $MYVIMRC"
 command! Reload execute "source ~/.config/nvim/init.vim"
-command! W execute "w"
-" command! -nargs=0 Prettier :call CocAction('runCommand', 'prettier.formatFile')
-"command! -bang -nargs=*  All
-"  \ call fzf#run(fzf#wrap({
-"  "source": "rg --files --hidden --no-ignore-vcs --glob '!{node_modules/*,.git/*}'", 
-"  "down": "40%", "options": "--expect=ctrl-t,ctrl-x,ctrl-v --multi --reverse" 
-"  \ }))
-
-set omnifunc=javascriptcomplete#CompleteJS
 
 set backspace=indent,eol,start
 
@@ -182,8 +140,17 @@ syntax enable
 hi Search guibg=#5E81AC guifg=#E5E9F0
 hi DashboardHeader guifg=#81A1C1
 hi DashboardCenter guifg=#8FBCBB
-hi CmpItemMenu guifg=#D08770
-hi CmpItemAbbrMatch guifg=#191
+hi BufferCurrentMod guifg=#8FBCBB
+hi BufferVisibleMod guifg=#8FBCBB
+hi link LspDiagnosticsDefaultError ErrorMsg
+hi link LspDiagnosticsDefaultWarning WarningMsg
+hi link LspDiagnosticsDefaultInformation InfoMsg
+hi link LspDiagnosticsDefaultHint InfoMsg
+hi link LspDiagnosticsVirtualTextError ErrorMsg
+hi link LspDiagnosticsVirtualTextWarning WarningMsg
+hi link LspDiagnosticsVirtualTextInformation InfoMsg
+hi link LspDiagnosticsVirtualTextHint InfoMsg
+
 
 set hlsearch
 set hid
@@ -349,3 +316,5 @@ function! LuaTreeShowCursor()
   highlight! Cursor blend=NONE
   set guicursor=n-v-c-sm:block,i-ci-ve:ver25,r-cr-o:hor20
 endfunction
+
+set scl=yes

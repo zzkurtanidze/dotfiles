@@ -71,32 +71,18 @@ gls.left[2] = {
 }
 
 gls.mid[0] = {
-  SeparatorLeft = {
-    provider = function() return '' end,
-    highlight = {colors.bg, colors.darkblue}
-  }
-}
-
-gls.mid[1] = {
   FileIcon = {
     provider = {whitespace, whitespace, 'FileIcon'},
     condition = buffer_not_empty,
-    highlight = {require('galaxyline.provider_fileinfo').get_file_icon_color,colors.bg},
+    highlight = {require('galaxyline.provider_fileinfo').get_file_icon_color,colors.darkblue},
   },
 }
 
-gls.mid[2] = {
+gls.mid[1] = {
   FileName = {
     provider = {'FileName'},
     condition = buffer_not_empty,
-    highlight = {colors.cyan,colors.bg,'bold'}
-  }
-}
-
-gls.mid[4] = {
-  SeparatorRight = {
-    provider = function() return ' ' end,
-    highlight = {colors.bg, colors.darkblue}
+    highlight = {colors.cyan,colors.darkblue,'bold'}
   }
 }
 
@@ -147,21 +133,6 @@ gls.left[9] = {
     condition = checkwidth,
     icon = '  ',
     highlight = {colors.red,colors.darkblue},
-  }
-}
-gls.left[11] = {
-  DiagnosticError = {
-    provider = 'DiagnosticError',
-    icon = '  ',
-    highlight = {colors.red,colors.darkblue}
-  }
-}
-
-gls.left[13] = {
-  DiagnosticWarn = {
-    provider = 'DiagnosticWarn',
-    icon = '  ',
-    highlight = {colors.blue,colors.darkblue},
   }
 }
 
