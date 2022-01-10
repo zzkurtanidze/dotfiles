@@ -185,3 +185,5 @@ if [ -f "$HOME/"'.platformsh/shell-config.rc' ]; then . "$HOME/"'.platformsh/she
 typeset -g POWERLEVEL9K_INSTANT_PROMPT=quiet
 
 
+export VOLTA_HOME="$HOME/.volta"
+export PATH="$VOLTA_HOME/bin:$PATH"
