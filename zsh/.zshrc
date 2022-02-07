@@ -1,9 +1,6 @@
 # Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
 # Initialization code that may require console input (password prompts, [y/n]
 # confirmations, etc.) must go above this block; everything else may go below.
-if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
-  source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
-fi
 
 # If you come from bash you might have to change your $PATH.
 # export PATH=$HOME/bin:/usr/local/bin:$PATH
@@ -15,7 +12,7 @@ export ZSH="/home/zkurtanidze/.oh-my-zsh"
 # load a random theme each time oh-my-zsh is loaded, in which case,
 # to know which specific one was loaded, run: echo $RANDOM_THEME
 # See https://github.com/ohmyzsh/ohmyzsh/wiki/Themes
-ZSH_THEME="powerlevel10k/powerlevel10k"
+ZSH_THEME="tywr"
 
 # Set list of themes to pick from when loading at random
 # Setting this variable when ZSH_THEME=random will cause zsh to load
@@ -79,6 +76,7 @@ plugins=(
   git
   zsh-autosuggestions
   zsh-syntax-highlighting
+  tmux
 )
 
 ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE="fg=#3B4252,bold,underline"
@@ -133,57 +131,16 @@ export FZF_DEFAULT_COMMAND='ag -g ""'
 export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
 
 stty -ixon
-export TERM=xterm-256color
+export TERM="screen-256color"
 
 test -r "~/.dir_colors" && eval $(dircolors ~/.dir_colors)
-
-# To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
-[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
-
-test -r ~/.dir_colors && eval $(dircolors ~/.dir_colors)
-
-POWERLEVEL9K_LEFT_PROMPT_ELEMENTS=(
-    context
-    dir
-    vcs
-    newline
-    os_icon
-)
-POWERLEVEL9K_RIGHT_PROMPT_ELEMENTS=(
-    status
-    command_execution_time
-    background_jobs
-    time
-)
-
-POWERLEVEL9K_DIR_BACKGROUND='#5E81AC'
-POWERLEVEL9K_DIR_FOREGROUND="#D8DEE9"
-POWERLEVEL9K_DIR_SHORTENED_FOREGROUND="#D8DEE9"
-POWERLEVEL9K_DIR_ANCHOR_FOREGROUND="#D8DEE9"
-POWERLEVEL9K_VCS_CLEAN_BACKGROUND='#88C0D0'
-POWERLEVEL9K_VCS_MODIFIED_BACKGROUND='#88C0D0'
-POWERLEVEL9K_VCS_UNTRACKED_BACKGROUND='#88C0D0'
-POWERLEVEL9K_VCS_CONFLICTED_BACKGROUND='#88C0D0'
-POWERLEVEL9K_VCS_LOADING_BACKGROUND='#88C0D0' 
-
-POWERLEVEL9K_TIME_FOREGROUND='#E5E9F0'
-POWERLEVEL9K_TIME_BACKGROUND='#4C566A'
-
-POWERLEVEL9K_VCS_BRANCH_ICON=" "
-
-POWERLEVEL9K_OS_ICON_FOREGROUND="#3B4252"
-POWERLEVEL9K_OS_ICON_BACKGROUND="#7EB2C1"
-POWERLEVEL9K_OS_ICON_CONTENT_EXPANSION=''
-
-POWERLEVEL9K_MULTILINE_FIRST_PROMPT_GAP_CHAR='─'
 
 # BEGIN SNIPPET: Platform.sh CLI configuration
 HOME=${HOME:-'/home/zkurtanidze'}
 export PATH="$HOME/"'.platformsh/bin':"$PATH"
 if [ -f "$HOME/"'.platformsh/shell-config.rc' ]; then . "$HOME/"'.platformsh/shell-config.rc'; fi # END SNIPPET
 
-typeset -g POWERLEVEL9K_INSTANT_PROMPT=quiet
-
 
 export VOLTA_HOME="$HOME/.volta"
 export PATH="$VOLTA_HOME/bin:$PATH"
+
