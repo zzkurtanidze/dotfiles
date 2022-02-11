@@ -1,8 +1,8 @@
-source ~/.config/nvim/vim/plugins.vim
-source ~/.config/nvim/vim/starter.vim
-source ~/.config/nvim/vim/rotateline.vim
-source ~/.config/nvim/vim/highlights.vim
-source ~/.config/nvim/vim/functions.vim
+source ~/.config/nvim/config/plugins.vim
+source ~/.config/nvim/config/starter.vim
+source ~/.config/nvim/config/rotateline.vim
+source ~/.config/nvim/config/highlights.vim
+source ~/.config/nvim/config/functions.vim
 
 lua require("completion")
 lua require("lsp-config")
