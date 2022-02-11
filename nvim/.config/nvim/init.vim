@@ -8,9 +8,7 @@ endfun
 
 call plug#begin("~/.config/nvim/plugged/")
 
-Plug 'ryanoasis/vim-devicons'
-Plug 'SirVer/ultisnips' 
-Plug 'mlaursen/vim-react-snippets'
+Plug 'L3MON4D3/LuaSnip' 
 Plug 'HerringtonDarkholme/yats.vim' "TS Syntax
 Plug 'pangloss/vim-javascript'    " JavaScript support
 Plug 'leafgarland/typescript-vim' " TypeScript syntax
@@ -20,42 +18,41 @@ Plug 'leafOfTree/vim-matchtag' " Use % to toggle between tags
 Plug 'alvan/vim-closetag' 
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-commentary'
-Plug 'arcticicestudio/nord-vim', { 'for': 'javascript' }
-Plug 'yardnsm/vim-import-cost', { 'do': 'npm install' }
+Plug 'arcticicestudio/nord-vim'
 Plug 'tpope/vim-fugitive'
 Plug 'lilydjwg/colorizer', { 'do': 'make install' }
 Plug 'kyazdani42/nvim-web-devicons'
 Plug 'kyazdani42/nvim-tree.lua'
-Plug 'iamcco/markdown-preview.nvim', { 'do': { -> mkdp#util#install() }, 'for': ['markdown', 'vim-plug']}
 Plug 'nvim-lua/plenary.nvim'
 Plug 'nvim-telescope/telescope.nvim'
-Plug 'maaslalani/slides'
 Plug 'windwp/nvim-autopairs'
 Plug 'mhinz/vim-startify'
 Plug 'romgrk/barbar.nvim'
-Plug 'glepnir/galaxyline.nvim'
 Plug 'lewis6991/gitsigns.nvim'
+Plug 'tamton-aquib/staline.nvim'
+Plug 'APZelos/blamer.nvim'
 
 " LSP
 
 Plug 'neovim/nvim-lspconfig'
 Plug 'williamboman/nvim-lsp-installer'
 Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
-Plug 'quangnguyen30192/cmp-nvim-ultisnips'
+Plug 'nvim-treesitter/playground'
 Plug 'hrsh7th/cmp-nvim-lsp'
 Plug 'hrsh7th/cmp-buffer'
 Plug 'hrsh7th/cmp-path'
 Plug 'hrsh7th/cmp-cmdline'
 Plug 'hrsh7th/nvim-cmp'
 Plug 'onsails/lspkind-nvim'
-Plug 'jose-elias-alvarez/nvim-lsp-ts-utils'
+Plug 'MunifTanjim/prettier.nvim'
+Plug 'jose-elias-alvarez/null-ls.nvim'
+Plug 'saadparwaiz1/cmp_luasnip'
+Plug 'rafamadriz/friendly-snippets'
 
-" call s:local_plug("inlinegit.nvim")
+call plug#end()
 
 set rnu
 set number
-
-call plug#end()
 
 "LSP
 
@@ -72,8 +69,8 @@ set rtp+=~/plugins/
 
 let mapleader = "\<Space>"
 " Remappings
-noremap <silent> <A-h> :bprev<CR>
-noremap <silent> <A-l> :bnext<CR> 
+noremap <silent> <A-h> :BufferPrevious<CR>
+noremap <silent> <A-l> :BufferNext<CR> 
 noremap <silent> <A-1> :BufferGoto 1<CR>
 noremap <silent> <A-2> :BufferGoto 2<CR>
 noremap <silent> <A-3> :BufferGoto 3<CR>
@@ -90,23 +87,23 @@ noremap <C-l> <C-w>l
 noremap <C-j> <C-w>j
 noremap <C-k> <C-w>k
 
-nmap <C-s> :w<CR>
-inoremap <C-s> <ESC>:w<CR>i
+nmap <silent> <C-s> :w<CR>
+inoremap <silent> <C-s> <ESC>:w<CR>a
 
 nmap <C-n> :NvimTreeToggle<CR>
 nnoremap <leader>r :NvimTreeFindFile<CR>
 nnoremap <C-c> :bd<CR>
+nnoremap <silent> [q :cprev<CR>
+nnoremap <silent> ]q :cnext<CR>
+nnoremap <leader>gi <cmd>lua require('telescope.builtin').grep_string({search = vim.fn.expand("<cword>")})<cr>
 
 set encoding=UTF-8
-
-set scrolloff=20
+set scl=yes
+set cursorline
+set scrolloff=10
 
 " don't unload buffers when they're not being looked at.
 set hidden
-nnoremap <silent> <C-p> :Files<CR>
-nnoremap <silent> <C-f> :GFiles<CR>
-
-let g:NERDTreeIgnore = ['^node_modules$']
 
 " Tab size
 set tabstop=2 softtabstop=2 shiftwidth=2 expandtab 
@@ -126,22 +123,18 @@ if (has("termguicolors"))
   set termguicolors
 endif
 
-let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
-let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
 syntax enable
 colorscheme nord
-let g:nord_cursor_line_number_background = 1
-set background=dark
-set t_Co=256
-set cursorline
 noswapfile
 syntax enable
 
-hi Search guibg=#5E81AC guifg=#E5E9F0
+hi Search guibg=#5E81AC guifg=#E5E9F0 
+hi Normal guibg=none guifg=none
 hi DashboardHeader guifg=#81A1C1
 hi DashboardCenter guifg=#8FBCBB
 hi BufferCurrentMod guifg=#8FBCBB
 hi BufferVisibleMod guifg=#8FBCBB
+hi NvimTreeNormal guibg=#292f3a
 hi link LspDiagnosticsDefaultError ErrorMsg
 hi link LspDiagnosticsDefaultWarning WarningMsg
 hi link LspDiagnosticsDefaultInformation InfoMsg
@@ -150,7 +143,11 @@ hi link LspDiagnosticsVirtualTextError ErrorMsg
 hi link LspDiagnosticsVirtualTextWarning WarningMsg
 hi link LspDiagnosticsVirtualTextInformation InfoMsg
 hi link LspDiagnosticsVirtualTextHint InfoMsg
-
+hi TSOperator guibg=NONE
+hi typescriptBlock guibg=NONE
+hi TargetWord guibg=NONE guifg=#8FBCBB gui=bold cterm=bold
+hi NormalFloat guibg=none
+hi VertSplit guifg=#5E81AC
 
 set hlsearch
 set hid
@@ -176,28 +173,6 @@ function! InsertTabWrapper()
   endif
 endfunction
 
-
-" Automatically import cost
-augroup import_cost_auto_run
-  autocmd!
-  autocmd InsertLeave *.js,*.jsx,*.ts,*.tsx ImportCost
-  autocmd BufEnter *.js,*.jsx,*.ts,*.tsx ImportCost
-  autocmd CursorHold *.js,*.jsx,*.ts,*.tsx ImportCost
-augroup END
-
-" Airline config
-let g:airline_disable_statusline = 1
-let g:airline_powerline_fonts = 1
-let g:airline#extensions#tabline#enabled = 0           " enable airline tabline                                                           
-let g:airline#extensions#tabline#show_close_button = 0 " remove 'X' at the end of the tabline                                            
-let g:airline#extensions#tabline#tabs_label = ''       " can put text here like BUFFERS to denote buffers (I clear it so nothing is shown)
-let g:airline#extensions#tabline#buffers_label = ''    " can put text here like TABS to denote tabs (I clear it so nothing is shown)      
-let g:airline#extensions#tabline#show_tab_count = 0    " dont show tab numbers on the right                                                           
-let g:airline#extensions#tabline#show_buffers = 0      " dont show buffers in the tabline                                                 
-let g:airline#extensions#tabline#show_tab_nr = 0       " disable tab numbers                                                              
-let airline#extensions#coc#error_symbol = '✗ '
-let airline#extensions#coc#warning_symbol = '⚠️ '
-let g:airline_stl_path_style = 'long'
 
 augroup highlight_yank
   autocmd!
@@ -245,10 +220,6 @@ nnoremap <leader>gr :Telescope lsp_references<CR>
 nnoremap <leader>gd :Telescope lsp_definition<CR>
 nnoremap <leader>gc :Telescope find_files cwd=~/.config/nvim/<CR>
 
-
-let g:UltiSnipsExpandTrigger="<tab>"
-let g:UltiSnipsJumpForwardTrigger="<c-b>"
-let g:UltiSnipsJumpBackwardTrigger="<c-z>"
 
 
 " Press \r to start rotating lines and <C-c> (Control+c) to stop.
@@ -307,6 +278,7 @@ set guicursor=i:ver25-iCursor
 autocmd BufEnter,FileType NvimTree call LuaTreeHideCursor()
 autocmd BufLeave,BufWinLeave,WinClosed NvimTree call LuaTreeShowCursor()
 
+
 function! LuaTreeHideCursor()
   highlight! Cursor blend=100
   set guicursor=n:Cursor/lCursor,v-c-sm:block,i-ci-ve:ver25,r-cr-o:hor20
@@ -317,4 +289,13 @@ function! LuaTreeShowCursor()
   set guicursor=n-v-c-sm:block,i-ci-ve:ver25,r-cr-o:hor20
 endfunction
 
-set scl=yes
+let g:blamer_show_in_visual_modes = 0
+let g:blamer_show_in_insert_modes = 0
+let g:blamer_prefix = ' > '
+
+function! SynStack()
+  if !exists("*synstack")
+    return
+  endif
+  echo map(synstack(line('.'), col('.')), 'synIDattr(v:val, "name")')
+endfunc
