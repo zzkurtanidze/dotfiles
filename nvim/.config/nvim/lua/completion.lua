@@ -5,6 +5,9 @@ local cmp = require "cmp"
 
 vim.o.completeopt = "menuone,noselect"
 
+require("luasnip").filetype_extend("javascript", { "react" })
+require("luasnip/loaders/from_vscode").load()
+
 cmp.setup {
   mapping = {
     ["<C-d>"] = cmp.mapping.scroll_docs(-4),
@@ -34,8 +37,8 @@ cmp.setup {
 		['<Tab>'] = cmp.mapping(function(fallback)
 			if vim.fn.pumvisible() == 1 then
 				vim.fn.feedkeys(t('<C-n>'), 'n')
-			elseif vim.fn['vsnip#available']() == 1 then
-				vim.fn.feedkeys(t('<Plug>(vsnip-expand-or-jump)'), '')
+      elseif luasnip.expand_or_jumpable() then
+        luasnip.expand_or_jump()
 			elseif check_back_space() then
 				vim.fn.feedkeys(t('<Tab>'), 'n')
 			else
@@ -45,8 +48,8 @@ cmp.setup {
 		['<S-Tab>'] = cmp.mapping(function(fallback)
 			if vim.fn.pumvisible() == 1 then
 				vim.fn.feedkeys(t('<C-p>'), 'n')
-			elseif vim.fn['vsnip#jumpable'](-1) == 1 then
-				vim.fn.feedkeys(t('<Plug>(vsnip-jump-prev)'), '')
+      elseif luasnip.jumpable(-1) then
+        luasnip.jump(-1)
 			elseif check_back_space() then
 				vim.fn.feedkeys(t('<C-h>'), 'n')
 			else
@@ -54,16 +57,22 @@ cmp.setup {
 			end
 		end, { 'i', 's' }),
 
+  snippet = {
+    expand = function(args)
+      require"luasnip".lsp_expand(args.body)
+    end
+  },
+
+  documentation = {
+    border = { "╭", "─", "╮", "│", "╯", "─", "╰", "│" },
+  },
   sources = {
+    { name = "luasnip" },
     { name = "nvim_lsp" },
     { name = "path" },
-    { name = 'ultisnips' },
     { name = "buffer" },
   },
 
-  snippet = {
-    expand = function(args) vim.fn["UltiSnips#Anon"](args.body) end
-  },
 
   experimental = {
     native_menu = true,
@@ -71,14 +80,13 @@ cmp.setup {
   },
 
   formatting = {
-    -- Youtube: How to set up nice formatting for your sources.
     format = lspkind.cmp_format {
       with_text = true,
       menu = {
-        buffer = "[buf]",
-        nvim_lsp = "[LSP]",
-        path = "[path]",
-        ultisnips = "[snip]",
+        buffer = "﬘ [BUF]",
+        nvim_lsp = "ﲳ [LSP]",
+        path = "ﱮ [PATH]",
+        luasnip = " [SNIP]",
       },
     },
   },
