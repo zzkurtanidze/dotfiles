@@ -22,5 +22,19 @@ require('telescope').setup({
   },
   live_grep = {
     use_regex = true
-  }
+  },
+  pickers = {
+    find_files = {
+      theme = "dropdown",
+    },
+    buffers = {
+      theme = "dropdown",
+    },
+    live_grep = {
+      theme = "dropdown",
+    },
+  oldfiles = {
+      theme = "dropdown",
+    }
+  },
 })

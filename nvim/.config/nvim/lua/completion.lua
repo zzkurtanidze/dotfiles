@@ -1,12 +1,14 @@
 local lspkind = require "lspkind"
+local luasnip = require "luasnip"
 lspkind.init()
 
 local cmp = require "cmp"
 
 vim.o.completeopt = "menuone,noselect"
 
-require("luasnip").filetype_extend("javascript", { "react" })
+require("luasnip").filetype_extend("javascript", { "react", "react-ts" })   
 require("luasnip/loaders/from_vscode").load()
+
 
 cmp.setup {
   mapping = {
@@ -18,29 +20,9 @@ cmp.setup {
 			select = true,
 		}),
 
-    ["<c-space>"] = cmp.mapping {
-      i = cmp.mapping.complete(),
-      c = function(
-        _ --[[fallback]]
-      )
-        if cmp.visible() then
-          if not cmp.confirm { select = true } then
-            return
-          end
-        else
-          cmp.complete()
-        end
-      end,
-    }
-  },
-
 		['<Tab>'] = cmp.mapping(function(fallback)
-			if vim.fn.pumvisible() == 1 then
-				vim.fn.feedkeys(t('<C-n>'), 'n')
-      elseif luasnip.expand_or_jumpable() then
+      if luasnip.expand_or_jumpable() then
         luasnip.expand_or_jump()
-			elseif check_back_space() then
-				vim.fn.feedkeys(t('<Tab>'), 'n')
 			else
 				fallback()
 			end
@@ -50,12 +32,12 @@ cmp.setup {
 				vim.fn.feedkeys(t('<C-p>'), 'n')
       elseif luasnip.jumpable(-1) then
         luasnip.jump(-1)
-			elseif check_back_space() then
-				vim.fn.feedkeys(t('<C-h>'), 'n')
 			else
 				fallback()
 			end
 		end, { 'i', 's' }),
+
+  },
 
   snippet = {
     expand = function(args)
@@ -74,8 +56,11 @@ cmp.setup {
   },
 
 
+  view = {
+    entries = "native"
+  },
+
   experimental = {
-    native_menu = true,
     ghost_text = true,
   },
 

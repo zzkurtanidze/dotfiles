@@ -18,8 +18,6 @@ map('n', '<A-.>', ':BufferMoveNext<CR>', opts)
 -- Goto buffer in position...
 -- Close buffer
 map('n', '<A-c>', ':BufferClose<CR>', opts)
--- Magic buffer-picking mode
-map('n', '<C-p>', ':BufferPick<CR>', opts)
 -- Sort automatically by...
 map('n', '<Space>bb', ':BufferOrderByBufferNumber<CR>', opts)
 map('n', '<Space>bd', ':BufferOrderByDirectory<CR>', opts)

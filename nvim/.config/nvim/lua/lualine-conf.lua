@@ -1,50 +1,50 @@
+local vim = vim
 
-require('staline').setup {
-	defaults = {
-		left_separator  = "",
-		right_separator = "",
-		cool_symbol     = " ",       -- Change this to override defult OS icon.
-		full_path       = false,
-		mod_symbol      = "  ",
-		lsp_client_symbol = " ",
-		line_column     = "[%l/%L] :%c 並%p%% ", -- `:h stl` to see all flags.
-		fg              = "#2E3440",  -- Foreground text color.
-		bg              = "none",     -- Default background is transparent.
-		inactive_color  = "#303030",
-		inactive_bgcolor = "none",
-		true_colors     = true,       -- true lsp colors.
-		font_active     = "none",     -- "bold", "italic", "bold,italic", etc
-		branch_symbol   = " ",
-	},
-	mode_colors = {
-		n = "#88C0D0",
-		i = "#88C0D0",
-		c = "#88C0D0",
-		v = "#88C0D0",   -- etc..
-	},
-	mode_icons = {
-		n = " ",
-		i = " ",
-		c = " ",
-		v = " ",   -- etc..
-	},
-	sections = {
-		left = { '- ', '-mode', 'left_sep_double', ' ', 'branch', 'lsp' },
-		mid  = { 'file_name' },
-    right = { 
-      'cool_symbol',
-      'right_sep_double',
-      '-line_column' 
-    },
-	},
-	lsp_symbols = {
-		Error=" ",
-		Info=" ",
-		Warn=" ",
-		Hint=" ",
-	}
+require('lualine').setup {
+  options = {
+    icons_enabled = true,
+    theme = 'auto',
+    component_separators = { '' },
+    section_separators = { left = '', right = ''},
+    disabled_filetypes = {},
+    always_divide_middle = true,
+  },
+  sections = {
+    lualine_a = {{ 'mode', fmt = function() return ' ' end }},
+    lualine_b = {{'branch', icon = ""}},
+    lualine_c = {'buffers', 'diagnostics'},
+    lualine_x = {{
+      function()
+        local msg = 'No Active Lsp'
+        local buf_ft = vim.api.nvim_buf_get_option(0, 'filetype')
+        local clients = vim.lsp.get_active_clients()
+        if next(clients) == nil then
+          return msg
+        end
+        for _, client in ipairs(clients) do
+          local filetypes = client.config.filetypes
+          if filetypes and vim.fn.index(filetypes, buf_ft) ~= -1 then
+            return " " .. client.name
+          end
+        end
+        return msg
+      end,
+      color = { fg = "#88C0D0", gui = "bold,italic" }
+    }},
+    lualine_y = {{'diff', symbols = { added = " ", modified = " ", removed = " " }}},
+    lualine_z = {'progress'}
+  },
+  inactive_sections = {
+    lualine_a = {},
+    lualine_b = {},
+    lualine_c = {'filename'},
+    lualine_x = {'location'},
+    lualine_y = {},
+    lualine_z = {}
+  },
+  tabline = {},
+  extensions = {'nvim-tree'}
 }
-
 -- Lua
 
 -- Customized config
