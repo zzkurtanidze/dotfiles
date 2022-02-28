@@ -123,6 +123,8 @@ alias scan_bluetooth="hcitool -i hci0 scan"
 alias con_bluetooth="bluetoothctl" # trust {ID} | # connect {ID}
 alias fzfi='rg --files --hidden --follow --no-ignore-vcs -g "!{node_modules,.git}" | fzf'
 alias testspeed='curl -s https://raw.githubusercontent.com/sivel/speedtest-cli/master/speedtest.py | python -'
+alias c='xclip -selection clipboard'
+alias groot='cd $(git root)'
 
 set -g default-terminal "xterm"
 
@@ -131,13 +133,14 @@ export FZF_DEFAULT_COMMAND='ag -g ""'
 export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
 
 stty -ixon
-export TERM="screen-256color"
+export TERM="xterm-256color"
 
 test -r "~/.dir_colors" && eval $(dircolors ~/.dir_colors)
 
 # BEGIN SNIPPET: Platform.sh CLI configuration
 HOME=${HOME:-'/home/zkurtanidze'}
 export PATH="$HOME/"'.platformsh/bin':"$PATH"
+export PATH="$HOME/"'Documents/bin':"$PATH"
 if [ -f "$HOME/"'.platformsh/shell-config.rc' ]; then . "$HOME/"'.platformsh/shell-config.rc'; fi # END SNIPPET
 
 
