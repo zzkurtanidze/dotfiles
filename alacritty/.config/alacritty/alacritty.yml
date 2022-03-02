@@ -1,14 +1,17 @@
 font:
   normal:
-    family: mononoki Nerd Font Mono
+    family: JetBrainsMono Nerd Font Mono
     style: Regular
   bold:
-    family: mononoki Nerd Font Mono
+    family: JetBrainsMono Nerd Font Mono
     style: Bold
-  itelic:
-    family: mononoki Nerd Font Mono
+  italic:
+    family: JetBrainsMono Nerd Font Mono
     style: Italic
-  size: 15
+  nonasci:
+    family: nonicons
+    style: Regular
+  size: 14
 colors:
   primary:
     background: "0x2E3440"
