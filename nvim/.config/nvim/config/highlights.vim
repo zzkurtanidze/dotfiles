@@ -22,4 +22,4 @@ hi SpellBad guibg=#BF616A guifg=#E5E9F0 cterm=underline
 hi! Cursor blend=NONE
 hi Comment gui=italic
 hi Type gui=italic
-hi Visual guibg=#5E81AC
+hi Visual guibg=#5E81AC guifg=#E5E9F0

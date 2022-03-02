@@ -139,6 +139,10 @@ local servers = {
   sumneko_lua = {
     on_attach = on_attach,
     capabilities = capabilities
+  },
+  vimls = {
+    on_attach = on_attach,
+    capabilities = capabilities
   }
 }
 

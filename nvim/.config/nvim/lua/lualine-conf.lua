@@ -12,26 +12,34 @@ require('lualine').setup {
   sections = {
     lualine_a = {{ 'mode', fmt = function() return ' ' end }},
     lualine_b = {{'branch', icon = ""}},
-    lualine_c = {'buffers', 'diagnostics'},
+    lualine_c = {{'filename', symbols = { modified = ' ', readonly = ' ' }}, 'diagnostics'},
     lualine_x = {{
       function()
-        local msg = 'No Active Lsp'
+        local msg = ''
         local buf_ft = vim.api.nvim_buf_get_option(0, 'filetype')
         local clients = vim.lsp.get_active_clients()
         if next(clients) == nil then
-          return msg
+          msg = 'No Active Lsp'
+        end
+        local lengthNum = 0
+        for _ in ipairs(clients) do
+          lengthNum = lengthNum + 1
         end
         for _, client in ipairs(clients) do
           local filetypes = client.config.filetypes
           if filetypes and vim.fn.index(filetypes, buf_ft) ~= -1 then
-            return " " .. client.name
+            if lengthNum == _ then
+              msg = msg .. client.name .. " "
+            else
+              msg = msg ..  client.name .. ", "
+            end
           end
         end
-        return msg
+        return " " .. msg
       end,
       color = { fg = "#88C0D0", gui = "bold,italic" }
     }},
-    lualine_y = {{'diff', symbols = { added = " ", modified = " ", removed = " " }}},
+    lualine_y = {{'diff', symbols = { added = " ", modified = " ", removed = " " }}},
     lualine_z = {'progress'}
   },
   inactive_sections = {
