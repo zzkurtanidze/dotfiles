@@ -76,6 +76,7 @@ plugins=(
   git
   zsh-autosuggestions
   zsh-syntax-highlighting
+  zsh-peco-history
   tmux
 )
 
