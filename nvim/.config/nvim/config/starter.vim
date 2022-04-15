@@ -15,9 +15,10 @@ set splitbelow
 set splitright
 set rtp+=~/plugins/
 set guicursor=n:Cursor/lCursor,v-c-sm:block,i-ci-ve:ver25,r-cr-o:hor20
-set nohlsearch 
+set nohlsearch
 set mouse+=a
 set linespace=10
+set updatetime=200
 
 filetype indent on
 set backspace=indent,eol,start
@@ -39,6 +40,11 @@ augroup highlight_yank
   autocmd TextYankPost * silent! lua require'vim.highlight'.on_yank({timeout = 100})
 augroup END
 
+augroup html_autobrackets
+  autocmd!
+  autocmd InsertCharPre *.html lua print("INSERT")
+augroup END
+
 inoremap <C-d> <esc>
 " Greatest remaps
 vnoremap J :m '>+1<CR>gv=gv
@@ -47,6 +53,7 @@ inoremap <C-j> <esc>:m .+1<CR>==i
 inoremap <C-k> <esc>:m .-2<CR>==i
 nnoremap <leader>k :m .-2<CR>==
 nnoremap <leader>j :m .+1<CR>==
+nnoremap <leader>= ggVG=<C-o>
 
 nnoremap <leader>y "+y
 vnoremap <leader>y "+y
@@ -73,13 +80,15 @@ noremap <C-k> <C-w>k
 
 nmap <silent> <C-s> :w<CR>
 inoremap <silent> <C-s> <ESC>:w<CR>a
+inoremap <C-d> <ESC>
 
-nmap <C-n> :NvimTreeToggle<CR>
-nnoremap <leader>r :NvimTreeFindFile<CR>
+nmap <silent> <C-n> :NvimTreeToggle<CR>
+nnoremap <silent> <leader>r :NvimTreeFindFile<CR>
 nnoremap <C-c> :bd<CR>
 nnoremap <silent> [q :cprev<CR>
 nnoremap <silent> ]q :cnext<CR>
 nnoremap <leader>gi <cmd>lua require('telescope.builtin').grep_string({search = vim.fn.expand("<cword>")})<cr>
+nnoremap <leader>q <cmd>CodeActionMenu<CR>
 
 " Remaps
 noremap <silent> <A-h> :BufferPrevious<CR>
@@ -95,9 +104,12 @@ noremap <silent> <A-8> :BufferGoto 8<CR>
 noremap <silent> <A-9> :BufferGoto 9<CR>
 noremap <silent> <A-0> :BufferLast<CR>
 noremap <silent> <leader>gr :LspUtilsRename<CR>
-noremap <silent> gr :LspUtilsReference<CR>
+noremap <silent> gr :NiceReference<CR>
+nnoremap <leader>u :call HandleURL()<cr>
 
 let g:vim_matchtag_enable_by_default = 1
 let g:vim_matchtag_files = '*.html,*.xml,*.js,*.jsx,*.tsx,*.vue,*.svelte,*.jsp'
 let g:closetag_filenames = '*.html,*.xhtml,*.phtml,*.tsx,*.jsx,*.vue,*.svelte,*.js'
 let g:vim_matchtag_both = 0
+
+let g:blamer_enabled = 1

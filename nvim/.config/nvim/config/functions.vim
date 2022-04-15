@@ -20,3 +20,12 @@ function! SynStack()
   endif
   echo map(synstack(line('.'), col('.')), 'synIDattr(v:val, "name")')
 endfunc
+
+function! HandleURL()
+  let s:uri = matchstr(getline("."), '[a-z]*:\/\/[^ >,;]*')
+  if s:uri != ""
+    silent exec "!xdg-open '".s:uri."'"
+  else
+    echo "No URI found in line."
+  endif
+endfunction

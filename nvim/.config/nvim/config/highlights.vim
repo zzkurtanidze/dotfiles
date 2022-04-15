@@ -20,6 +20,10 @@ hi NormalFloat guibg=none
 hi VertSplit guifg=#5E81AC
 hi SpellBad guibg=#BF616A guifg=#E5E9F0 cterm=underline
 hi! Cursor blend=NONE
-hi Comment gui=italic
+hi Comment gui=italic guibg=none ctermbg=none
 hi Type gui=italic
 hi Visual guibg=#5E81AC guifg=#E5E9F0
+hi LightspeedLabel cterm=bold ctermfg=9 gui=bold,underline guifg=#E5E9F0
+hi LightspeedShortcut guibg=#B48EAD
+syn match Url "https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)"
+hi Url cterm=bold guifg=NONE gui=underline
