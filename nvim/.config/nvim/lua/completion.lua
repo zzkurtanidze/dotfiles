@@ -6,9 +6,6 @@ local cmp = require("cmp")
 
 vim.o.completeopt = "menuone,noselect"
 
-require("luasnip").filetype_extend("javascript", { "react", "react-ts", "twig" }, "html")
-require("luasnip/loaders/from_vscode").load()
-
 cmp.setup({
 	mapping = {
 		["<C-d>"] = cmp.mapping.scroll_docs(-4),

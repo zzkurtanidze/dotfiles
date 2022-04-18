@@ -52,38 +52,6 @@ end
 
 capabilities.textDocument.completion.completionItem.snippetSupport = true
 
-if not configs.emmet_ls then
-	configs.emmet_ls = {
-		default_config = {
-			cmd = { "ls_emmet", "--stdio" },
-			filetypes = {
-				"html",
-				"css",
-				"scss",
-				"javascript",
-				"javascriptreact",
-				"typescript",
-				"typescriptreact",
-				"haml",
-				"xml",
-				"xsl",
-				"pug",
-				"slim",
-				"sass",
-				"stylus",
-				"less",
-				"sss",
-				"hbs",
-				"handlebars",
-			},
-			root_dir = function(fname)
-				return vim.loop.cwd()
-			end,
-			settings = {},
-		},
-	}
-end
-
 local function clip_text(diagnostic)
 	if #diagnostic.message < 70 then
 		return diagnostic.message
@@ -222,9 +190,6 @@ local servers = {
 	},
 	vimls = {
 		on_attach = on_attach,
-		capabilities = capabilities,
-	},
-	emmet_ls = {
 		capabilities = capabilities,
 	},
 }
