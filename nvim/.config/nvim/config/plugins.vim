@@ -9,14 +9,16 @@ endfun
 call plug#begin("~/.config/nvim/plugged/")
 
 call s:local_plug("lsp-utils.nvim")
-Plug 'L3MON4D3/LuaSnip' 
-Plug 'neoclide/vim-jsx-improve'
+
+Plug 'L3MON4D3/LuaSnip'
 Plug 'mxw/vim-jsx'
+Plug 'neoclide/vim-jsx-improve'
 Plug 'leafOfTree/vim-matchtag' " Use % to toggle between tags 
-Plug 'windwp/nvim-ts-autotag' 
+Plug 'windwp/nvim-ts-autotag'
 Plug 'tpope/vim-surround'
 Plug 'numToStr/Comment.nvim'
 Plug 'arcticicestudio/nord-vim'
+Plug 'tannerellen/nvim-base16'
 Plug 'tpope/vim-fugitive'
 Plug 'lilydjwg/colorizer', { 'do': 'make install' }
 Plug 'kyazdani42/nvim-tree.lua'
@@ -30,11 +32,11 @@ Plug 'lewis6991/gitsigns.nvim'
 Plug 'nvim-lualine/lualine.nvim'
 Plug 'APZelos/blamer.nvim'
 Plug 'kyazdani42/nvim-web-devicons'
-Plug 'yamatsum/nvim-nonicons'
 Plug 'billyvg/tigris.nvim'
 Plug 'nelsyeung/twig.vim'
-Plug 'axieax/urlview.nvim'
-Plug 'pedro757/emmet'
+Plug 'JoosepAlviste/nvim-ts-context-commentstring'
+Plug 'tpope/vim-eunuch'
+Plug 'feline-nvim/feline.nvim'
 
 " ------ LSP ------
 
@@ -54,8 +56,6 @@ Plug 'saadparwaiz1/cmp_luasnip'
 Plug 'rafamadriz/friendly-snippets'
 Plug 'lukas-reineke/indent-blankline.nvim'
 Plug 'jose-elias-alvarez/nvim-lsp-ts-utils'
-Plug 'nvim-lua/lsp-status.nvim'
-Plug 'weilbith/nvim-code-action-menu'
 Plug 'wiliamks/nice-reference.nvim'
 
 call plug#end()

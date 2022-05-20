@@ -1,7 +1,7 @@
 require("telescope").setup({
 	defaults = {
 		layout_config = {
-			vertical = { width = 0.5 },
+			vertical = { width = 0.3 },
 			prompt_position = "top",
 		},
 		sorting_strategy = "ascending",
@@ -36,11 +36,14 @@ require("telescope").setup({
 		oldfiles = {
 			theme = "dropdown",
 		},
+		git_status = {
+			theme = "ivy",
+		},
 	},
 	extensions = {
 		media_files = {
 			filetypes = { "png", "webp", "jpg", "jpeg" },
-			find_cmd = "rg", -- find command (defaults to `fd`)
+			find_cmd = "rg",
 		},
 	},
 })

@@ -73,14 +73,33 @@ vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(vim.lsp.diagn
 })
 
 require("nvim-treesitter.configs").setup({
-	highlight = {
-		enable = false,
+	context_commentstring = {
+		enable = true,
 	},
 	indent = {
 		true,
 	},
+	highlight = {
+		enable = true,
+    additional_vim_regex_highlighting = true,
+    custom_captures = {
+      ["foo.bar"] = "Comment"
+    }
+	},
 	autotag = {
 		enable = true,
+		filetypes = {
+			"html",
+			"javascript",
+			"typescript",
+			"javascript.jsx",
+			"javascriptreact",
+			"typescriptreact",
+			"svelte",
+			"vue",
+			"tsx",
+			"jsx",
+		},
 	},
 	ensure_installed = {
 		"javascript",
@@ -155,7 +174,7 @@ local servers = {
 	diagnosticls = {
 		filetypes = {
 			"javascript",
-			"javascriptreact",
+			"javascript.jsx",
 			"json",
 			"typescript",
 			"typescriptreact",
@@ -212,6 +231,8 @@ null_ls.setup({
 	sources = {
 		null_ls.builtins.formatting.prettierd,
 		null_ls.builtins.formatting.stylua,
+		null_ls.builtins.diagnostics.eslint_d,
+		null_ls.builtins.code_actions.eslint_d,
 	},
 	on_attach = function(client)
 		if client.resolved_capabilities.document_formatting then
@@ -220,7 +241,7 @@ null_ls.setup({
 			vim.cmd("autocmd BufWritePre <buffer> lua vim.lsp.buf.formatting_seq_sync()")
 		end
 		if client.resolved_capabilities.document_range_formatting then
-			vim.cmd("xnoremap <silent><buffer> <Leader>f :lua vim.lsp.buf.range_formatting({})<CR>")
+			vim.cmd("xnoremap <silent><buffer> <leader>f :lua vim.lsp.buf.range_formatting({})<CR>")
 			vim.cmd("")
 		end
 	end,

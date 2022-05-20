@@ -8,7 +8,7 @@ ls.config.set_config({
 
 ls.snippets = {
 	all = {
-		ls.parser.parse_snippet("expand", "-- this is expanded text"),
+		ls.parser.parse_snippet("cl", "console.log($1)"),
 	},
 	typescriptreact = {
 		ls.parser.parse_snippet("cl", "console.log($1)"),

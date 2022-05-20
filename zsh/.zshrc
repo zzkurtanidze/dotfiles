@@ -138,13 +138,10 @@ export TERM="xterm-256color"
 
 test -r "~/.dir_colors" && eval $(dircolors ~/.dir_colors)
 
-# BEGIN SNIPPET: Platform.sh CLI configuration
-HOME=${HOME:-'/home/zkurtanidze'}
-export PATH="$HOME/"'.platformsh/bin':"$PATH"
-export PATH="$HOME/"'Documents/bin':"$PATH"
-if [ -f "$HOME/"'.platformsh/shell-config.rc' ]; then . "$HOME/"'.platformsh/shell-config.rc'; fi # END SNIPPET
-
-
 export VOLTA_HOME="$HOME/.volta"
 export PATH="$VOLTA_HOME/bin:$PATH"
 
+# BEGIN SNIPPET: Platform.sh CLI configuration
+HOME=${HOME:-'/home/zkurtanidze'}
+export PATH="$HOME/"'.platformsh/bin':"$PATH"
+if [ -f "$HOME/"'.platformsh/shell-config.rc' ]; then . "$HOME/"'.platformsh/shell-config.rc'; fi # END SNIPPET

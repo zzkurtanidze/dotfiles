@@ -51,8 +51,10 @@ cmp.setup({
 		end,
 	},
 
-	documentation = {
-		border = { "╭", "─", "╮", "│", "╯", "─", "╰", "│" },
+	window = {
+		documentation = {
+			border = { "╭", "─", "╮", "│", "╯", "─", "╰", "│" },
+		},
 	},
 	sources = {
 		{ name = "luasnip" },
